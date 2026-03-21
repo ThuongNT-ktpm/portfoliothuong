@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   let currentThemeIndex = localStorage.getItem("savedThemeIndex")
     ? parseInt(localStorage.getItem("savedThemeIndex"))
-    : 0;
+    : 1;
 
   function applyTheme(index) {
     themeLink.href = themes[index];
@@ -52,36 +52,28 @@ document.addEventListener("DOMContentLoaded", function () {
   const menuIcon = document.getElementById("menu-icon");
   const navbar = document.querySelector(".navbar");
 
-  if (menuIcon) {
+  if (menuIcon && navbar) {
     menuIcon.onclick = () => {
       menuIcon.classList.toggle("fa-times");
       navbar.classList.toggle("active");
     };
+
+    document.querySelectorAll(".navbar a").forEach((n) =>
+      n.addEventListener("click", () => {
+        menuIcon.classList.remove("fa-times");
+        navbar.classList.remove("active");
+      })
+    );
   }
 
   window.onscroll = () => {
-    if (menuIcon) {
+    if (menuIcon && navbar) {
       menuIcon.classList.remove("fa-times");
       navbar.classList.remove("active");
     }
   };
 });
 
-// 2. Mobile Menu Logic
-let menuIcon = document.querySelector("#menu-icon");
-let navbar = document.querySelector(".navbar");
-
-menuIcon.onclick = () => {
-  menuIcon.classList.toggle("fa-times");
-  navbar.classList.toggle("active");
-};
-
-document.querySelectorAll(".navbar a").forEach((n) =>
-  n.addEventListener("click", () => {
-    menuIcon.classList.remove("fa-times");
-    navbar.classList.remove("active");
-  }),
-);
 
 const observer = new IntersectionObserver(
   (entries) => {

@@ -31,6 +31,11 @@ body.dark-mode {
   scroll-behavior: smooth;
 }
 
+a, button, .play-btn, #theme-toggle, #menu-icon {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
 
 body {
   font-family: "Poppins", sans-serif;
@@ -433,14 +438,28 @@ footer p {
   .unified-hero {
     flex-direction: column-reverse;
     text-align: center;
-    gap: 2rem;
+    gap: 1.5rem;
     padding-top: 100px;
     min-height: auto;
   }
 
   .hero-img img {
-    width: 250px;
-    height: 250px;
+    width: 220px;
+    height: 220px;
+  }
+
+  .hero-text h1 {
+    font-size: 34px;
+    line-height: 1.2;
+  }
+
+  .heading {
+    font-size: 26px;
+    margin-bottom: 25px;
+  }
+
+  .bio {
+    font-size: 14px;
   }
 
   .navbar {
@@ -451,8 +470,18 @@ footer p {
     width: 100%;
     background: var(--bg-color);
     flex-direction: column;
-    padding: 20px;
+    padding: 15px 0;
     border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .navbar a {
+    margin: 5px 0;
+    padding: 12px;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+    width: 100%;
   }
 
   .navbar.active {
@@ -464,15 +493,17 @@ footer p {
   }
 
   section {
-    padding: 60px 5% 30px;
+    padding: 50px 5% 30px;
   }
 }
+
 
 /* ANIMATION CLASSES */
 .animate-scroll {
   opacity: 0;
   transition: all 1s ease-out;
   filter: blur(5px);
+  will-change: opacity, transform, filter;
 }
 
 .from-left {
@@ -674,6 +705,34 @@ footer p {
   .music-widget {
     min-width: unset;
     width: 100%;
-    border-radius: 30px;
+    border-radius: 25px;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .album-wrapper {
+    width: 55px;
+    height: 55px;
+    margin-right: 15px;
+  }
+
+  .music-widget .title {
+    max-width: 140px;
+    font-size: 14px;
+  }
+
+  .music-widget .artist {
+    font-size: 11px;
+  }
+
+  .play-btn {
+    width: 45px;
+    height: 45px;
+  }
+
+  .icon-play {
+    border-left: 14px solid #fff;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
   }
 }
