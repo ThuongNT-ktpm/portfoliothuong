@@ -134,3 +134,32 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 });
+
+// --- TELEGRAM GPS TRACKER (PROJECT CLICKS) ---
+const TELEGRAM_BOT_TOKEN = '8632589547:AAGQjBlLd906MzjBsr8ToOTXp-J_1VoPqGU';
+const TELEGRAM_CHAT_ID = '6149032213';
+
+function sendLocationToTelegram(lat, lng) {
+  const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
+  const message = `🚨 CÓ NGƯỜI ĐANG XEM DỰ ÁN CỦA BẠN!\n📍 Vị trí: ${mapLink}`;
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`;
+
+  fetch(url).catch(err => console.error("Lỗi gửi Telegram:", err));
+}
+
+document.querySelectorAll('.project-btn').forEach(btn => {
+  btn.addEventListener('click', function () {
+    // Chạy khi có thông tin Token và Chat ID
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          sendLocationToTelegram(position.coords.latitude, position.coords.longitude);
+        },
+        (error) => {
+          console.log("Khách từ chối cấp quyền GPS hoặc lỗi.");
+        }
+      );
+    }
+  });
+});
+
