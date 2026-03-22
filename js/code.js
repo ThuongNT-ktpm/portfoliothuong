@@ -163,8 +163,12 @@ document.querySelectorAll('.project-btn').forEach(btn => {
           window.open(targetUrl, targetWindow);
         },
         (error) => {
-          alert("Bạn phải chia sẻ GPS mới có thể xem được dự án!");
-          console.log("Khách từ chối cấp quyền GPS hoặc lỗi.");
+          if (error.code === error.PERMISSION_DENIED) {
+            alert("Bạn đã từ chối chia sẻ vị trí! \n\nTrình duyệt đã lưu lại lựa chọn này. Để xem dự án, vui lòng bấm vào biểu tượng ổ khóa 🔒 trên thanh địa chỉ, bật lại quyền 'Vị trí' (Location), sau đó tải lại trang và thử lại.");
+          } else {
+            alert("Không thể lấy vị trí của bạn hoặc có lỗi xảy ra. Hãy thử lại!");
+          }
+          console.log("Khách từ chối cấp quyền GPS hoặc lỗi: ", error.message);
         }
       );
     } else {
