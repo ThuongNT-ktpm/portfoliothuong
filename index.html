@@ -2,7 +2,8 @@
 <html lang="vi">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#111111" />
     <meta
       name="description"
       content="Portfolio của Nguyễn Tiến Thương - Sinh viên Software Engineering chuyên Backend, Java và Web Development. Chia sẻ dự án và tài liệu học tập CNTT."
@@ -81,19 +82,24 @@
 
       gtag("config", "G-7ZXRVPT543");
     </script>
+    <!-- canvas-confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
   </head>
 
   <body>
+    <!-- Reading Progress Bar -->
+    <div id="reading-progress"></div>
     <header class="animate-scroll from-top">
       <a href="#" class="logo">Tiến Thương</a>
       <div class="header-right">
-        <div id="theme-toggle"><i class="fas fa-moon"></i></div>
+        <div id="theme-toggle"><i class="fas fa-sun icon-sun"></i><i class="fas fa-moon icon-moon"></i></div>
         <nav class="navbar">
           <a href="#home" class="active">Home</a>
           <a href="#projects">Project</a>
           <a href="#skills">Skills</a>
           <a href="#timeline">Timeline</a>
           <a href="#study">Study</a>
+          <a href="#end">Contact</a>
         </nav>
         <i class="fas fa-bars" id="menu-icon"></i>
       </div>
@@ -120,7 +126,7 @@
           <audio id="audioPlayer" src="hennhauduoianhtrang.mp3"></audio>
         </div>
 
-        <h1>Cậu SE Trẻ</h1>
+        <h1>Cậu SE Trẻ — <span id="typing-text"></span><span class="typing-cursor">|</span></h1>
         <p class="bio">
           Xin chào, mình là Thương — sinh viên Software Engineering.<br /><br />
           Nếu bạn muốn xem toàn bộ hiệu ứng của các project, hãy truy cập bằng
@@ -150,8 +156,23 @@
 
     <section id="projects">
       <h2 class="heading animate-scroll from-bottom">Projects</h2>
+
+      <!-- Project Search -->
+      <div class="project-search-wrap">
+        <i class="fas fa-search"></i>
+        <input type="text" id="projectSearch" placeholder="Tìm project..." autocomplete="off" />
+      </div>
+
+      <!-- Project Filter -->
+      <div class="project-filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="html-css">HTML + CSS</button>
+        <button class="filter-btn" data-filter="javascript">JavaScript</button>
+        <button class="filter-btn" data-filter="python">Python</button>
+      </div>
+
       <div class="projects-grid">
-        <div class="project-card animate-scroll from-left">
+        <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
           <img src="image/gopqua.png" alt="Gift Project" loading="lazy" />
           <div class="project-info">
             <h4>Gift Project</h4>
@@ -166,7 +187,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-right">
+        <div class="project-card animate-scroll from-right" data-tags="html-css javascript">
           <img src="image/vutru.png" alt="Galaxy Project" loading="lazy" />
           <div class="project-info">
             <h4>Galaxy Project</h4>
@@ -181,7 +202,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-left">
+        <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
           <img src="image/bailu.png" alt="Hẹ Hẹ" loading="lazy" />
           <div class="project-info">
             <h4>Hẹ Hẹ</h4>
@@ -196,7 +217,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-right">
+        <div class="project-card animate-scroll from-right" data-tags="html-css javascript python">
           <img src="image/hsk.png" alt="HSK Test" loading="lazy" />
           <div class="project-info">
             <h4>HSK Test</h4>
@@ -211,7 +232,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-left">
+        <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
           <img src="image/sn.png" alt="Happy Birthday" loading="lazy" />
           <div class="project-info">
             <h4>Happy Birthday</h4>
@@ -226,7 +247,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-right">
+        <div class="project-card animate-scroll from-right" data-tags="html-css javascript">
           <img src="image/2010.png" alt="20-10" loading="lazy" />
           <div class="project-info">
             <h4>Dự án 20-10</h4>
@@ -241,7 +262,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-left">
+        <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
           <img src="image/fa.png" alt="FA Muôn Năm" loading="lazy" />
           <div class="project-info">
             <h4>FA Muôn Năm</h4>
@@ -256,7 +277,7 @@
           </div>
         </div>
 
-        <div class="project-card animate-scroll from-right">
+        <div class="project-card animate-scroll from-right" data-tags="html-css javascript">
           <img src="image/ba.png" alt="Hội Nghị" loading="lazy" />
           <div class="project-info">
             <h4>Hội Nghị Thượng Đỉnh</h4>
@@ -276,33 +297,33 @@
     <section id="skills">
       <h2 class="heading animate-scroll from-bottom">Technical Skills</h2>
       <div class="skills-grid animate-scroll from-bottom">
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Advanced ⭐⭐⭐⭐⭐">
           <i class="devicon-html5-plain colored"></i><span>HTML</span>
         </div>
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Advanced ⭐⭐⭐⭐⭐">
           <i class="devicon-css3-plain colored"></i><span>CSS</span>
         </div>
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Intermediate ⭐⭐⭐">
           <i class="devicon-bootstrap-plain colored"></i><span>Bootstrap</span>
         </div>
 
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Intermediate ⭐⭐⭐">
           <i class="devicon-java-plain colored"></i>
           <span>Java</span>
         </div>
 
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Beginner ⭐⭐">
           <i class="devicon-spring-original colored"></i
           ><span>Spring Boot</span>
         </div>
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Intermediate ⭐⭐⭐">
           <i class="fas fa-server" style="color: #007bff"></i
           ><span>Servlet</span>
         </div>
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Intermediate ⭐⭐⭐">
           <i class="devicon-mysql-plain colored"></i><span>MySQL</span>
         </div>
-        <div class="skill-item">
+        <div class="skill-item" data-tip="Daily use ⭐⭐⭐⭐">
           <i class="devicon-github-original"></i><span>GitHub</span>
         </div>
       </div>
@@ -357,20 +378,29 @@
       </div>
     </section>
 
+    <!-- Scroll to Top -->
+    <button id="scroll-top" aria-label="Scroll to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
     <footer class="animate-scroll from-bottom" id="end">
       <div class="social-icons">
         <a
           href="https://www.facebook.com/tien.thuong.674774"
           class="social-link"
+          target="_blank" rel="noopener"
           ><i class="fab fa-facebook-f"></i
         ></a>
-        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
-        <a
-          href="https://mail.google.com/mail/u/0/?tab=rm&ogbl#inbox"
-          class="social-link"
-          ><i class="fas fa-envelope"></i
-        ></a>
+        <a href="https://github.com/thuongnt-ktpm" class="social-link" target="_blank" rel="noopener"><i class="fab fa-github"></i></a>
+        <button class="copy-email-btn" id="copyEmailBtn" title="Copy email">
+          <i class="fas fa-envelope"></i>
+          <span class="tooltip">Đã copy! 📋</span>
+        </button>
         <a href="#" class="social-link"><i class="fab fa-tiktok"></i></a>
+      </div>
+      <div class="visitor-badge">
+        <span>👁️ Lượt xem:</span>
+        <img src="https://hits.sh/thuongnt-ktpm.github.io.svg?style=flat-square&color=555&labelColor=000" alt="visitor count" loading="lazy" />
       </div>
       <p style="margin-top: 15px">© 2024 Nguyen Tien Thuong. Thanks.</p>
     </footer>

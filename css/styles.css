@@ -108,11 +108,7 @@ header {
   color: var(--text-muted);
 }
 
-#theme-toggle {
-  cursor: pointer;
-  font-size: 18px;
-  color: var(--text-color);
-}
+
 
 #menu-icon {
   font-size: 22px;
@@ -288,6 +284,7 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  position: relative; /* for tooltip */
 }
 
 .skill-item:hover {
@@ -736,3 +733,408 @@ footer p {
     border-bottom: 8px solid transparent;
   }
 }
+
+/* ============================================================
+   NEW FEATURES
+   ============================================================ */
+
+/* --- DARK / LIGHT MODE TOGGLE --- */
+#theme-toggle {
+  cursor: pointer;
+  width: 44px;
+  height: 24px;
+  background: var(--border-color);
+  border-radius: 50px;
+  position: relative;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+#theme-toggle::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--text-color);
+  border-radius: 50%;
+  top: 3px;
+  left: 3px;
+  transition: transform 0.3s, background 0.3s;
+}
+
+body.dark-mode #theme-toggle {
+  background: #555;
+}
+
+body.dark-mode #theme-toggle::after {
+  transform: translateX(20px);
+}
+
+/* toggle icon inside */
+#theme-toggle i {
+  position: absolute;
+  font-size: 11px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+#theme-toggle .icon-sun { right: 5px; opacity: 1; color: #f5a623; }
+#theme-toggle .icon-moon { left: 5px; opacity: 0; color: #fff; }
+
+body.dark-mode #theme-toggle .icon-sun { opacity: 0; }
+body.dark-mode #theme-toggle .icon-moon { opacity: 1; }
+
+/* --- SCROLL TO TOP BUTTON --- */
+#scroll-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s, transform 0.3s;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+#scroll-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#scroll-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+/* --- PROJECT FILTER TABS --- */
+.project-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.filter-btn {
+  padding: 6px 18px;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: 'Poppins', sans-serif;
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border-color: var(--accent-color);
+}
+
+.project-card.hidden {
+  display: none;
+}
+
+/* --- VISITOR COUNTER --- */
+.visitor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* --- COPY EMAIL BUTTON --- */
+.copy-email-btn {
+  background: none;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 18px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  position: relative;
+}
+
+.copy-email-btn:hover {
+  background: var(--accent-color);
+  color: var(--bg-color);
+  border-color: var(--accent-color);
+  transform: translateY(-3px);
+}
+
+.copy-email-btn .tooltip {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  background: var(--accent-color);
+  color: var(--bg-color);
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  font-family: 'Poppins', sans-serif;
+}
+
+.copy-email-btn.copied .tooltip {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ============================================================
+   NEW FEATURES V2
+   ============================================================ */
+
+/* --- READING PROGRESS BAR --- */
+#reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, #ff7eb3, #8e44ad);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* --- TYPING CURSOR --- */
+.typing-cursor {
+  display: inline-block;
+  animation: blink 0.7s step-end infinite;
+  font-weight: 300;
+  opacity: 0.7;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* --- PROJECT SEARCH BOX --- */
+.project-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  max-width: 340px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 50px;
+  padding: 8px 18px;
+  transition: var(--transition);
+}
+
+.project-search-wrap:focus-within {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(0,0,0,0.07);
+}
+
+.project-search-wrap i {
+  color: var(--text-muted);
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+#projectSearch {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Poppins', sans-serif;
+  font-size: 13px;
+  color: var(--text-color);
+  width: 100%;
+}
+
+#projectSearch::placeholder {
+  color: var(--text-muted);
+}
+
+.skill-item::before {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%) scale(0.85);
+  background: var(--accent-color);
+  color: var(--bg-color);
+  font-size: 11px;
+  font-family: 'Poppins', sans-serif;
+  padding: 5px 12px;
+  border-radius: 20px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+  z-index: 10;
+}
+
+.skill-item:hover::before {
+  opacity: 1;
+  transform: translateX(-50%) scale(1);
+}
+
+/* ============================================================
+   MOBILE OPTIMIZATION (max-width: 768px)
+   ============================================================ */
+@media (max-width: 768px) {
+
+  /* --- Hero H1: typing text xuống dòng riêng, không tràn --- */
+  .hero-text h1 {
+    font-size: 28px;
+    line-height: 1.3;
+    word-break: break-word;
+  }
+
+  .hero-text h1 .typing-cursor {
+    display: inline;
+  }
+
+  /* --- Avatar nhỏ hơn chút --- */
+  .hero-img img {
+    width: 180px;
+    height: 180px;
+  }
+
+  /* --- Project Search: full width --- */
+  .project-search-wrap {
+    max-width: 100%;
+  }
+
+  /* --- Project Filters: scroll ngang không wrap --- */
+  .project-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px;
+  }
+
+  .project-filters::-webkit-scrollbar {
+    display: none;
+  }
+
+  .filter-btn {
+    flex-shrink: 0;
+    padding: 7px 16px;
+  }
+
+  /* --- Scroll to Top: nhỏ hơn, xa edge hơn để không đè cử chỉ iOS --- */
+  #scroll-top {
+    bottom: 20px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    font-size: 15px;
+  }
+
+  /* --- Skill tooltip: dùng :active thay :hover cho touch --- */
+  .skill-item:active::before {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+
+  /* --- Tooltip vị trí: đảm bảo không bị cắt bởi edge screen --- */
+  .skill-item::before {
+    font-size: 10px;
+    padding: 4px 10px;
+    bottom: calc(100% + 6px);
+  }
+
+  /* --- Timeline: giảm padding --- */
+  .timeline-container {
+    padding-left: 20px;
+  }
+
+  .timeline-item::before {
+    left: -27px;
+  }
+
+  /* --- Study banner: padding nhỏ hơn --- */
+  .study-banner {
+    padding: 24px 20px;
+  }
+
+  /* --- Footer social icons: to hơn cho ngón tay --- */
+  .social-link,
+  .copy-email-btn {
+    width: 46px;
+    height: 46px;
+    font-size: 20px;
+  }
+
+  /* --- Visitor badge: wrap text --- */
+  .visitor-badge {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px;
+  }
+
+  /* --- Disable blur animation trên mobile (tiết kiệm pin + smoother) --- */
+  .animate-scroll {
+    filter: none !important;
+  }
+
+  /* --- Reading progress: dày thêm chút trên touch --- */
+  #reading-progress {
+    height: 4px;
+  }
+
+  /* --- Section padding --- */
+  section {
+    padding: 60px 4% 30px;
+  }
+}
+
+/* ============================================================
+   SMALL PHONE (max-width: 400px)
+   ============================================================ */
+@media (max-width: 400px) {
+  .hero-text h1 {
+    font-size: 24px;
+  }
+
+  .logo {
+    font-size: 18px;
+  }
+
+  .music-widget .title {
+    max-width: 110px;
+    font-size: 13px;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .social-icons {
+    gap: 12px;
+  }
+}
+
+

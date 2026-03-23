@@ -1,4 +1,214 @@
+// ============================================================
+// SKILL TOOLTIP — TAP TO SHOW ON MOBILE TOUCH DEVICES
+// ============================================================
+(function () {
+  // Chỉ kích hoạt trên thiết bị cảm ứng
+  if (!('ontouchstart' in globalThis)) return;
+
+  const skills = document.querySelectorAll('.skill-item[data-tip]');
+  let current = null;
+
+  skills.forEach(item => {
+    item.addEventListener('touchstart', (e) => {
+      e.preventDefault(); // ngăn :hover ghost trên iOS
+      if (current && current !== item) current.classList.remove('tip-active');
+      item.classList.toggle('tip-active');
+      current = item.classList.contains('tip-active') ? item : null;
+    }, { passive: false });
+  });
+
+  document.addEventListener('touchstart', (e) => {
+    if (current && !current.contains(e.target)) {
+      current.classList.remove('tip-active');
+      current = null;
+    }
+  });
+})();
+
+// ============================================================
+// READING PROGRESS BAR
+// ============================================================
+(function () {
+  const bar = document.getElementById('reading-progress');
+  if (!bar) return;
+  window.addEventListener('scroll', () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    bar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+  });
+})();
+
+// ============================================================
+// ACTIVE NAV HIGHLIGHT ON SCROLL
+// ============================================================
+(function () {
+  const sections = document.querySelectorAll('section[id], footer[id]');
+  const navLinks = document.querySelectorAll('.navbar a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const active = document.querySelector(`.navbar a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 });
+
+  sections.forEach(sec => observer.observe(sec));
+})();
+
+// ============================================================
+// TYPING ANIMATION
+// ============================================================
+(function () {
+  const el = document.getElementById('typing-text');
+  if (!el) return;
+
+  const roles = ['🌌', '🎓', '💘', '📔'];
+  let roleIdx = 0, charIdx = 0, deleting = false;
+
+  function type() {
+    const current = roles[roleIdx];
+    el.textContent = deleting
+      ? current.substring(0, charIdx--)
+      : current.substring(0, charIdx++);
+
+    let delay = deleting ? 60 : 100;
+
+    if (!deleting && charIdx > current.length) {
+      delay = 1800;
+      deleting = true;
+    } else if (deleting && charIdx < 0) {
+      deleting = false;
+      charIdx = 0;
+      roleIdx = (roleIdx + 1) % roles.length;
+      delay = 400;
+    }
+
+    setTimeout(type, delay);
+  }
+
+  setTimeout(type, 800);
+})();
+
+// ============================================================
+// PROJECT SEARCH (realtime filter by name)
+// ============================================================
+(function () {
+  const input = document.getElementById('projectSearch');
+  if (!input) return;
+
+  const cards = document.querySelectorAll('.project-card');
+
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    cards.forEach(card => {
+      const name = card.querySelector('h4')?.textContent.toLowerCase() || '';
+      card.classList.toggle('hidden', q !== '' && !name.includes(q));
+    });
+  });
+})();
+
+// ============================================================
+// CONFETTI ON FIRST PAGE LOAD (once per session)
+// ============================================================
+(function () {
+  if (sessionStorage.getItem('confetti_done')) return;
+  sessionStorage.setItem('confetti_done', '1');
+
+  window.addEventListener('load', () => {
+    if (typeof confetti !== 'function') return;
+    confetti({ particleCount: 80, spread: 70, origin: { y: 0.5 } });
+  });
+})();
+
+// ============================================================
+// DARK / LIGHT MODE TOGGLE
+// ============================================================
+(function () {
+  const toggle = document.getElementById('theme-toggle');
+  const saved = localStorage.getItem('darkMode');
+  if (saved === 'true') document.body.classList.add('dark-mode');
+
+  if (toggle) {
+    toggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    });
+  }
+})();
+
+// ============================================================
+// SCROLL TO TOP BUTTON
+// ============================================================
+(function () {
+  const btn = document.getElementById('scroll-top');
+  if (!btn) return;
+
+  window.addEventListener('scroll', () => {
+    btn.classList.toggle('visible', window.scrollY > 300);
+  });
+
+  btn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+})();
+
+// ============================================================
+// PROJECT FILTER
+// ============================================================
+(function () {
+  const filterBtns = document.querySelectorAll('.filter-btn');
+  const cards = document.querySelectorAll('.project-card');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const tags = card.dataset.tags || '';
+        if (filter === 'all' || tags.includes(filter)) {
+          card.classList.remove('hidden');
+        } else {
+          card.classList.add('hidden');
+        }
+      });
+    });
+  });
+})();
+
+// ============================================================
+// COPY EMAIL TO CLIPBOARD
+// ============================================================
+(function () {
+  const copyBtn = document.getElementById('copyEmailBtn');
+  if (!copyBtn) return;
+
+  const EMAIL = 'thuongnt.ktpm@gmail.com'; // ← đổi email của bạn ở đây
+
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(EMAIL).then(() => {
+      copyBtn.classList.add('copied');
+      setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+    }).catch(() => {
+      // fallback cho trình duyệt cũ
+      const el = document.createElement('textarea');
+      el.value = EMAIL;
+      document.body.appendChild(el);
+      el.select();
+      document.execCommand('copy'); // fallback cũ, chỉ dùng khi clipboard API không có
+      el.remove();
+      copyBtn.classList.add('copied');
+      setTimeout(() => copyBtn.classList.remove('copied'), 2000);
+    });
+  });
+})();
+
 // 1. Theme Logic (Chế độ Sáng/Tối)
+
 document.addEventListener("DOMContentLoaded", function () {
   // 1. Khai báo danh sách các file CSS giao diện
   /*
@@ -151,28 +361,28 @@ function sendLocationToTelegram(lat, lng) {
 
 document.querySelectorAll('.project-btn').forEach(btn => {
   btn.addEventListener('click', function (e) {
-    e.preventDefault(); // Ngăn mở link ngay lập tức
+    e.preventDefault();
     const targetUrl = this.getAttribute('href');
     const targetWindow = this.getAttribute('target') || '_self';
 
+    // Mở link NGAY LẬP TỨC để tránh iOS Safari chặn popup
+    window.open(targetUrl, targetWindow);
+
+    // Sau đó mới lấy GPS trong nền để gửi Telegram (không ảnh hưởng việc mở link)
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           sendLocationToTelegram(position.coords.latitude, position.coords.longitude);
-          // Mở link sau khi đã cấp quyền vị trí
-          window.open(targetUrl, targetWindow);
         },
         (error) => {
-          if (error.code === error.PERMISSION_DENIED) {
-            alert("Bạn đã từ chối chia sẻ vị trí! \n\nTrình duyệt đã lưu lại lựa chọn này. Để xem dự án, vui lòng bấm vào biểu tượng ổ khóa 🔒 trên thanh địa chỉ, bật lại quyền 'Vị trí' (Location), sau đó tải lại trang và thử lại.");
-          } else {
-            alert("Không thể lấy vị trí của bạn hoặc có lỗi xảy ra. Hãy thử lại!");
-          }
           console.log("Khách từ chối cấp quyền GPS hoặc lỗi: ", error.message);
+        },
+        {
+          timeout: 10000,        // tối đa 10 giây chờ GPS
+          maximumAge: 60000,     // dùng cache vị trí nếu có (không quá 1 phút)
+          enableHighAccuracy: false // tắt để iOS phản hồi nhanh hơn
         }
       );
-    } else {
-      alert("Trình duyệt của bạn không hỗ trợ định vị GPS!");
     }
   });
 });
