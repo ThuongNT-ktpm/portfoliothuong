@@ -1,22 +1,19 @@
-/* ==========================================================================
-   1. GLOBAL RESET & FONT
-   ========================================================================== */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500&display=swap');
 
 :root {
-    /* Màu sắc chủ đạo: Tím than & Xanh Neon */
+
     --bg-dark: #0a0b10;
     --bg-card: #14161f;
     --primary: #00f0ff;
-    /* Cyan Neon */
+
     --secondary: #7000ff;
-    /* Purple Neon */
+
     --text-main: #e0e6ed;
     --text-muted: #94a3b8;
     --border-glow: 0 0 10px rgba(0, 240, 255, 0.3);
 
     --font-tech: 'Orbitron', sans-serif;
-    /* Font tiêu đề robot */
+
     --font-read: 'Roboto', sans-serif;
 }
 
@@ -32,7 +29,7 @@ body {
     color: var(--text-main);
     font-family: var(--font-read);
     line-height: 1.6;
-    /* Hiệu ứng nền lưới Cyberpunk */
+
     background-image:
         linear-gradient(rgba(112, 0, 255, 0.05) 1px, transparent 1px),
         linear-gradient(90deg, rgba(112, 0, 255, 0.05) 1px, transparent 1px);
@@ -49,7 +46,7 @@ ul {
     list-style: none;
 }
 
-/* Scrollbar đẹp */
+
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -63,9 +60,6 @@ ul {
     border-radius: 4px;
 }
 
-/* ==========================================================================
-   2. HEADER & NAVBAR (Đã Fix lỗi hiển thị)
-   ========================================================================== */
 header {
     position: fixed;
     top: 0;
@@ -73,7 +67,6 @@ header {
     right: 0;
     height: 70px;
     background: rgba(10, 11, 16, 0.95);
-    /* Nền tối đậm, gần như không xuyên thấu */
     backdrop-filter: blur(10px);
     border-bottom: 2px solid var(--secondary);
     display: flex;
@@ -94,7 +87,6 @@ header {
     text-shadow: 0 0 10px var(--primary);
 }
 
-/* Navbar hiển thị mặc định trên Desktop */
 .navbar {
     display: flex;
     gap: 30px;
@@ -109,7 +101,7 @@ header {
     padding: 5px 0;
 }
 
-/* Hiệu ứng gạch chân neon */
+
 .navbar a::after {
     content: '';
     position: absolute;
@@ -147,13 +139,10 @@ header {
     font-size: 1.8rem;
     color: var(--text-main);
     display: none;
-    /* Ẩn trên desktop */
     cursor: pointer;
 }
 
-/* ==========================================================================
-   3. HERO SECTION
-   ========================================================================== */
+
 .unified-hero {
     min-height: 100vh;
     padding: 100px 10% 50px;
@@ -231,7 +220,6 @@ header {
     animation: float 3s ease-in-out infinite;
 }
 
-/* Vòng tròn công nghệ xoay quanh avatar */
 .hero-img::before {
     content: '';
     position: absolute;
@@ -260,9 +248,6 @@ header {
     }
 }
 
-/* ==========================================================================
-   4. PROJECTS GRID (Đã Fix: Gọn gàng, Không rối)
-   ========================================================================== */
 section {
     padding: 80px 10%;
 }
@@ -279,7 +264,7 @@ section {
 
 .projects-grid {
     display: grid;
-    /* Tự động chia cột, tối thiểu 300px */
+
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
 }
@@ -289,7 +274,7 @@ section {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
     overflow: hidden;
-    /* Cố định chiều cao để đều nhau */
+
     height: 400px;
     display: flex;
     flex-direction: column;
@@ -306,21 +291,17 @@ section {
 .project-card img {
     width: 100%;
     height: 55%;
-    /* Ảnh chiếm 55% chiều cao */
     object-fit: cover;
-    /* Đảm bảo ảnh không bị méo */
     border-bottom: 2px solid var(--secondary);
 }
 
 .project-info {
     padding: 20px;
     height: 45%;
-    /* Phần chữ chiếm 45% còn lại */
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: var(--bg-card);
-    /* Nền đặc, không trong suốt để dễ đọc chữ */
 }
 
 .project-info h4 {
@@ -334,7 +315,6 @@ section {
     font-size: 0.9rem;
     color: var(--text-muted);
     line-height: 1.4;
-    /* Giới hạn số dòng mô tả để không bị tràn */
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -343,7 +323,6 @@ section {
 
 .project-btn {
     margin-top: auto;
-    /* Đẩy nút xuống dưới cùng */
     align-self: flex-start;
     font-size: 0.9rem;
     color: var(--secondary);
@@ -356,12 +335,9 @@ section {
 .project-btn:hover {
     color: var(--primary);
     padding-left: 5px;
-    /* Hiệu ứng di chuyển nhẹ */
+
 }
 
-/* ==========================================================================
-   5. SKILLS SECTION
-   ========================================================================== */
 .skills-grid {
     display: flex;
     flex-wrap: wrap;
@@ -374,7 +350,6 @@ section {
     border: 1px solid var(--secondary);
     padding: 15px 30px;
     border-radius: 50px;
-    /* Bo tròn kiểu viên thuốc */
     display: flex;
     align-items: center;
     gap: 15px;
@@ -397,14 +372,10 @@ section {
     font-size: 1.5rem;
 }
 
-/* ==========================================================================
-   6. TIMELINE (Style Dọc đơn giản)
-   ========================================================================== */
 .timeline-container {
     max-width: 800px;
     margin: 0 auto;
     border-left: 3px solid var(--secondary);
-    /* Đường kẻ bên trái */
     padding-left: 30px;
 }
 
@@ -413,12 +384,10 @@ section {
     margin-bottom: 40px;
 }
 
-/* Chấm tròn */
 .timeline-item::before {
     content: '';
     position: absolute;
     left: -39px;
-    /* Căn chỉnh chấm tròn vào đúng đường kẻ */
     top: 5px;
     width: 16px;
     height: 16px;
@@ -449,9 +418,6 @@ section {
     margin-bottom: 5px;
 }
 
-/* ==========================================================================
-   7. STUDY & FOOTER
-   ========================================================================== */
 .study-banner {
     text-align: center;
     background: linear-gradient(45deg, rgba(112, 0, 255, 0.2), rgba(0, 240, 255, 0.2));
@@ -491,9 +457,6 @@ footer {
     transform: translateY(-5px);
 }
 
-/* ==========================================================================
-   8. RESPONSIVE (Mobile)
-   ========================================================================== */
 @media (max-width: 768px) {
     header {
         padding: 0 20px;
@@ -516,8 +479,6 @@ footer {
         align-items: center;
         padding: 20px 0;
         gap: 20px;
-        /* Logic ẩn hiện: Mặc định ẩn, hiện khi có class active (cần JS) */
-        /* Nếu bạn chưa có JS toggle, hãy tạm thời để display: flex nhưng coi chừng che màn hình */
         display: none;
     }
 
@@ -525,7 +486,7 @@ footer {
         display: flex;
     }
 
-    /* Class này JS sẽ thêm vào */
+
 
     .unified-hero {
         flex-direction: column-reverse;
@@ -541,11 +502,9 @@ footer {
 
     .projects-grid {
         grid-template-columns: 1fr;
-        /* Mobile hiển thị 1 cột */
     }
 }
 
-/* === CSS CHO MUSIC WIDGET === */
 .music-widget {
     background: #2a2a2a;
     border-radius: 20px;
@@ -554,16 +513,13 @@ footer {
     align-items: center;
     width: 100%;
     max-width: 420px;
-    /* Giới hạn chiều rộng */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     margin-bottom: 25px;
-    /* Tạo khoảng cách với tiêu đề bên dưới */
     box-sizing: border-box;
 }
 
 .album-wrapper {
     width: 80px;
-    /* Thu nhỏ lại chút cho hợp với Portfolio */
     height: 80px;
     margin-right: 15px;
     flex-shrink: 0;
@@ -580,7 +536,6 @@ footer {
     flex-grow: 1;
     padding-right: 10px;
     overflow: hidden;
-    /* Tránh vỡ khung nếu tên quá dài */
 }
 
 .music-widget .tag {
@@ -629,7 +584,6 @@ footer {
     transform: scale(0.95);
 }
 
-/* Icon Play */
 .icon-play {
     width: 0;
     height: 0;
@@ -639,7 +593,6 @@ footer {
     margin-left: 3px;
 }
 
-/* Icon Pause */
 .icon-pause {
     width: 10px;
     height: 12px;
@@ -648,7 +601,6 @@ footer {
     display: none;
 }
 
-/* Khi đang phát nhạc */
 .music-widget.playing .icon-play {
     display: none;
 }
@@ -657,11 +609,9 @@ footer {
     display: block;
 }
 
-/* Responsive cho mobile */
 @media (max-width: 768px) {
     .music-widget {
         max-width: 100%;
-        /* Full màn hình trên điện thoại */
         margin-top: 20px;
     }
 }
