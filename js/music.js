@@ -43,6 +43,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (!widget || !audio) return;
 
+  // Khởi tạo bài hát đầu tiên
+  loadSong(songIdx);
+
   function loadSong(idx) {
     const song = songs[idx];
     if (titleEl) titleEl.textContent = song.title;
@@ -52,7 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function playSong() {
-    audio.play();
+    audio.play().catch(error => {
+      console.log("Trình duyệt chặn tự động phát nhạc hoặc lỗi: ", error);
+    });
     widget.classList.add("playing");
   }
 
