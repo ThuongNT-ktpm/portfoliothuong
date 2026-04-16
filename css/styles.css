@@ -642,24 +642,47 @@ footer p {
 
 /* --- NÚT PLAY (To hơn & Cute) --- */
 .play-btn {
-  width: 55px;
-  /* Tăng từ 45px -> 55px */
-  height: 55px;
+  width: 52px;
+  height: 52px;
   border-radius: 50%;
   border: none;
   cursor: pointer;
-
-  /* Gradient rực rỡ hơn */
   background: linear-gradient(135deg, #ff7eb3 0%, #8e44ad 100%);
-
-  box-shadow: 0 5px 20px rgba(255, 117, 140, 0.5);
-
+  box-shadow: 0 5px 15px rgba(255, 117, 140, 0.4);
   display: flex;
   justify-content: center;
   align-items: center;
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   flex-shrink: 0;
+}
+
+/* --- MUSIC CONTROLS --- */
+.controls-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   margin-left: auto;
+}
+
+.prev-btn, .next-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+}
+
+.prev-btn:hover, .next-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.1);
+  border-color: #ff7eb3;
 }
 
 .play-btn:hover {
@@ -725,6 +748,16 @@ footer p {
   .play-btn {
     width: 45px;
     height: 45px;
+  }
+
+  .prev-btn, .next-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
+  }
+
+  .controls-wrapper {
+    gap: 8px;
   }
 
   .icon-play {

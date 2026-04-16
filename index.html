@@ -37,8 +37,8 @@
 
   <link rel="preload" href="image/avata.jpg" as="image" />
   <link id="theme-link" rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/welcome-letter.css" />
 
-  <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZXRVPT543"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -77,19 +77,23 @@
     <div class="hero-text animate-scroll from-left">
       <div class="music-widget" id="musicWidget">
         <div class="album-wrapper">
-          <img src="image/avata.jpg" alt="Cover" class="cover" />
+          <img src="image/avata.jpg" alt="Cover" class="cover" id="trackCover" />
         </div>
 
         <div class="info">
           <div class="tag">NOW PLAYING</div>
-          <h3 class="title">Hẹn Nhau Dưới Ánh Trăng</h3>
-          <p class="artist">HIEUTHUHAI, MANBO, HURRYKNG</p>
+          <h3 class="title" id="trackTitle">Hẹn Nhau Dưới Ánh Trăng</h3>
+          <p class="artist" id="trackArtist">HIEUTHUHAI, MANBO, HURRYKNG</p>
         </div>
 
-        <button class="play-btn" id="playBtn">
-          <div class="icon-play"></div>
-          <div class="icon-pause"></div>
-        </button>
+        <div class="controls-wrapper">
+          <button class="prev-btn" id="prevBtn"><i class="fas fa-step-backward"></i></button>
+          <button class="play-btn" id="playBtn">
+            <div class="icon-play"></div>
+            <div class="icon-pause"></div>
+          </button>
+          <button class="next-btn" id="nextBtn"><i class="fas fa-step-forward"></i></button>
+        </div>
 
         <audio id="audioPlayer" src="hennhauduoianhtrang.mp3"></audio>
       </div>
@@ -294,7 +298,64 @@
     <p style="margin-top: 15px">© 2024 Nguyen Tien Thuong. Thanks.</p>
   </footer>
 
-  <script src="js/code.js" defer></script>
+
+  <div class="letter-hearts" id="letterHearts">
+    <span>💕</span><span>🌸</span><span>✨</span><span>💖</span><span>🌷</span>
+    <span>⭐</span><span>💫</span><span>🌺</span><span>💗</span><span>🎀</span>
+  </div>
+
+
+  <div id="welcome-overlay" role="dialog" aria-modal="true" aria-labelledby="letter-title">
+    <div id="welcome-letter">
+
+      <span class="letter-sticker letter-sticker-tl" style="--r:-20deg">🎀</span>
+      <span class="letter-sticker letter-sticker-tr" style="--r:20deg">🌸</span>
+      <span class="letter-sticker letter-sticker-bl" style="--r:15deg">⭐</span>
+      <span class="letter-sticker letter-sticker-br" style="--r:-15deg">💕</span>
+
+
+      <div class="letter-header">
+        <div class="letter-dots">
+          <span></span><span></span><span></span>
+        </div>
+        <span class="letter-brand">Thư Gửi Cậu <span class="wave-emoji">👋</span></span>
+        <div style="width:48px"></div>
+      </div>
+
+
+      <div class="letter-body">
+        <span class="letter-icon" id="letterIcon">🌸</span>
+        <p class="letter-quote" id="letter-title"></p>
+        <p class="letter-sub" id="letterSub"></p>
+        <p class="letter-author" id="letterAuthor"></p>
+
+
+        <div class="letter-progress-wrap">
+          <div class="letter-progress-bar" id="letterProgressBar"></div>
+        </div>
+
+        <div class="letter-actions">
+          <button class="btn-next-quote" id="btnNextQuote" onclick="nextWelcomeQuote()"> Quote khác</button>
+          <button class="btn-close-letter" id="btnCloseLetter" onclick="closeWelcomeLetter()">Vào xem nào!</button>
+        </div>
+      </div>
+
+
+      <div class="letter-footer">
+        💌 &nbsp;Made with love by Tiến Thương &nbsp;💌
+      </div>
+    </div>
+  </div>
+
+
+  <script src="js/notifications.js" defer></script>
+  <script src="js/ui-core.js" defer></script>
+  <script src="js/navigation.js" defer></script>
+  <script src="js/effects.js" defer></script>
+  <script src="js/projects.js" defer></script>
+  <script src="js/music.js" defer></script>
+
+  <script src="js/welcome-letter.js" defer></script>
 </body>
 
 </html>
