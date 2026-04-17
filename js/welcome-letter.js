@@ -53,19 +53,178 @@ const QUOTES = [
     quote: '"Phía sau một người im lặng,\nthường là rất nhiều điều\nđã từng muốn nói."',
     sub: 'Không hỏi nữa, không phải vì không còn muốn biết, chỉ là có những câu trả lời nếu đến muộn rồi thì nghe xong cũng chỉ làm lòng nặng thêm.',
     author: '— Gửi đến cậu, người đang ghé thăm trang này 🌟'
-  }
+  },
+  {
+    icon: '🐷',
+    quote: '"Kẻ luôn làm hài lòng người khác, đôi khi lại quên mất chính bản thân mình."',
+    sub: 'Cậu tự nhận mình là kẻ luôn làm hài lòng người khác, nhưng lại không nhớ lần cuối cậu chiều chuộng bản thân là khi nào. Tôi hy vọng cậu không quên rằng: chính cậu cũng xứng đáng nhận lại sự dịu dàng bấy lâu nay cậu luôn dành cho người khác. Hãy yêu thương bản thân mình nhiều hơn nhé!',
+    author: '— Gửi đến cậu, người đang ghé thăm trang này 🌟'
+  },
+  {
+    icon: '🐺',
+    quote: '"Chính Cậu"',
+    sub: 'Có lúc, tất cả những gì cậu cần chỉ là một người tin tưởng mình khi bị cả thế giới quay lưng. Chỉ bấy nhiêu đó cũng đủ để cậu vững vàng bước tiếp, ngay cả khi người duy nhất ấy là chính cậu.',
+    author: '— Gửi đến cậu, người đang ghé thăm trang này 🌟'
+  },
+  {
+    icon: '🐺',
+    quote: '"Có lẽ"',
+    sub: 'Có lẽ, mỗi người chúng ta điều là kẻ xấu trong chuyện của ai đó. Thế nên không cần phải bận tâm, cứ cố gắng sống tốt cho cuộc đời mình là được. Bởi vì chiếc áo đẹp nhất là chiếc áo mặc vừa vặn, cuộc đời đẹp nhất là cuộc đời sống vừa ý mình.',
+    author: '— Gửi đến cậu, người đang ghé thăm trang này 🌟'
+  },
+  {
+    icon: '🐯',
+    quote: '"Một ngày bình thường để thương mình"',
+    sub: 'Hãy dành một chút thời gian hôm nay để nhìn lại vị trí của mình và cả những nổ lực của bản thân để chạm đến hiện tại, dù là nơi này chưa phải đích đến cậu mơ ước, nhưng ít nhất cậu đã đi được một chặng đường dài, và đó là điều đáng tự hào.',
+    author: '— Gửi đến cậu, người đang ghé thăm trang này 🌟'
+  },
+  {
+    icon: '🐯',
+    quote: '"Người bìn thường tập lớn"',
+    sub: 'Mong cuộc sống ở thành phố không kéo bạn xa rời chính mình, không làm bạn lấm lem những chuyện buồn, không làm bạn kẹt cứng trong những suy nghĩ tiêu cực và không làm tâm hồn bạn trở nên vô cảm. Hãy luôn là chính mình, hãy luôn là chàng trai/cô gái mạnh mẽ, kiên cường và xinh đẹp nhé! ',
+    author: '— Gửi đến cậu, người đang ghé thăm trang này 🌟'
+  },
 ];
 
+// --- FIREBASE CONFIGURATION ---
+const firebaseConfig = {
+  apiKey: "AIzaSyBGvORskaNnFlbaXrAo5EY0T2v1gbnA6ME",
+  authDomain: "profilethw.firebaseapp.com",
+  databaseURL: "https://profilethw-default-rtdb.firebaseio.com",
+  projectId: "profilethw",
+  storageBucket: "profilethw.firebasestorage.app",
+  messagingSenderId: "388876970338",
+  appId: "1:388876970338:web:a4116c6f375baa7471243b",
+  measurementId: "G-E7H9F5VYJ9"
+};
+
+let database = null;
 let currentQuoteIdx = 0;
 let autoCloseTimer = null;
 
+/**
+ * Khởi tạo Firebase
+ */
+function initFirebase() {
+  try {
+    if (typeof firebase !== 'undefined' && firebaseConfig.apiKey) {
+      firebase.initializeApp(firebaseConfig);
+      database = firebase.database();
+    }
+  } catch (err) {
+    console.error("Firebase Init Error:", err);
+  }
+}
+
+/**
+ * Hiệu ứng tim bay
+ */
+function createFloatingEmoji(btn, emoji) {
+  const floating = document.createElement('span');
+  floating.className = 'floating-reaction';
+  floating.textContent = emoji;
+
+  const rect = btn.getBoundingClientRect();
+  const offset = (Math.random() - 0.5) * 40;
+  floating.style.left = `calc(50% + ${offset}px)`;
+
+  btn.appendChild(floating);
+  setTimeout(() => floating.remove(), 1200);
+}
+
+/**
+ * Đồng bộ data
+ */
+function syncReactions() {
+  if (!database) return;
+  const reactionsRef = database.ref('reactions');
+  reactionsRef.on('value', (snapshot) => {
+    const data = snapshot.val() || {};
+    ['love', 'like', 'sparkles', 'fire'].forEach(type => {
+      const el = document.getElementById(`count-${type}`);
+      if (el) el.textContent = data[type] || 0;
+    });
+  });
+}
+
+/**
+ * Kiểm tra trạng thái cá nhân từ LocalStorage
+ */
+function checkLocalReactions() {
+  const localData = JSON.parse(localStorage.getItem('my_reactions') || '{}');
+  document.querySelectorAll('.reaction-btn').forEach(btn => {
+    const type = btn.getAttribute('data-type');
+    if (localData[type]) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+function handleReactionClick(btn) {
+  const type = btn.getAttribute('data-type');
+  const emoji = btn.querySelector('.reaction-icon').textContent;
+  const localData = JSON.parse(localStorage.getItem('my_reactions') || '{}');
+  const isAlreadyActive = btn.classList.contains('active');
+
+  if (!isAlreadyActive) {
+    // --- TRƯỜNG HỢP: THẢ TIM MỚI ---
+    btn.classList.add('active');
+    localData[type] = true;
+    localStorage.setItem('my_reactions', JSON.stringify(localData));
+
+    // 1. Hiệu ứng bay
+    createFloatingEmoji(btn, emoji);
+
+    // 2. Tăng số hiển thị ngay lập tức
+    const el = document.getElementById(`count-${type}`);
+    if (el) el.textContent = (parseInt(el.textContent) || 0) + 1;
+
+    // 3. Gửi lên Firebase
+    if (database) {
+      database.ref(`reactions/${type}`).transaction(c => (c || 0) + 1);
+    }
+
+    // 4. Gửi Telegram
+    if (typeof sendTelegramNotification === 'function') {
+      sendTelegramNotification(`💌 Ai đó vừa thả ${emoji} cho lá thư của bạn!`);
+    }
+  } else {
+    // --- TRƯỜNG HỢP: RÚT LẠI (UNLIKE) ---
+    btn.classList.remove('active');
+    delete localData[type];
+    localStorage.setItem('my_reactions', JSON.stringify(localData));
+
+    // 1. Giảm số hiển thị ngay lập tức
+    const el = document.getElementById(`count-${type}`);
+    if (el) {
+      const current = parseInt(el.textContent) || 0;
+      el.textContent = Math.max(0, current - 1);
+    }
+
+    // 2. Giảm trên Firebase
+    if (database) {
+      database.ref(`reactions/${type}`).transaction(c => Math.max(0, (c || 0) - 1));
+    }
+    
+    // Lưu ý: Không gửi Telegram khi rút lại để tránh phiền cho chủ web
+  }
+}
+
 function renderQuote(idx) {
   const q = QUOTES[idx];
-  document.getElementById('letterIcon').textContent = q.icon;
-  document.getElementById('letter-title').textContent = q.quote;
-  document.getElementById('letterSub').textContent = q.sub;
-  document.getElementById('letterAuthor').textContent = q.author;
+  if (!q) return;
 
+  const icon = document.getElementById('letterIcon');
+  const title = document.getElementById('letter-title');
+  const sub = document.getElementById('letterSub');
+  const author = document.getElementById('letterAuthor');
+
+  if (icon) icon.textContent = q.icon;
+  if (title) title.textContent = q.quote;
+  if (sub) sub.textContent = q.sub;
+  if (author) author.textContent = q.author;
 
   const bar = document.getElementById('letterProgressBar');
   if (bar) {
@@ -77,16 +236,11 @@ function renderQuote(idx) {
 
 function closeWelcomeLetter() {
   const overlay = document.getElementById('welcome-overlay');
-  const hearts = document.getElementById('letterHearts');
   if (overlay) {
     overlay.classList.add('hidden');
-    setTimeout(() => {
-      if (hearts) hearts.remove();
-      overlay.remove();
-    }, 700);
+    setTimeout(() => overlay.remove(), 700);
   }
   clearTimeout(autoCloseTimer);
-  // Thông báo rằng lá thư đã đóng để các module khác (như nhạc) có thể phản hồi
   document.dispatchEvent(new CustomEvent('welcomeLetterClosed'));
 }
 
@@ -97,27 +251,23 @@ function nextWelcomeQuote() {
   autoCloseTimer = setTimeout(closeWelcomeLetter, 30000);
 }
 
-
 window.addEventListener('load', function () {
-  // Don't show on mobile devices (smaller than 768px)
-  if (window.innerWidth <= 768) return;
-
   const overlay = document.getElementById('welcome-overlay');
   if (!overlay) return;
 
+  initFirebase();
+  syncReactions();
+  checkLocalReactions();
 
   currentQuoteIdx = Math.floor(Math.random() * QUOTES.length);
   renderQuote(currentQuoteIdx);
 
-  // Auto-close after 30 s
+  document.querySelectorAll('.reaction-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleReactionClick(btn));
+  });
+
   autoCloseTimer = setTimeout(closeWelcomeLetter, 30000);
 
-
-  overlay.addEventListener('click', function (e) {
-    if (e.target === this) closeWelcomeLetter();
-  });
-
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeWelcomeLetter();
-  });
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) closeWelcomeLetter(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeWelcomeLetter(); });
 });

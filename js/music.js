@@ -6,10 +6,11 @@
 document.addEventListener("DOMContentLoaded", function () {
   const songs = [
     {
-      title: "Hẹn Nhau Dưới Ánh Trăng",
-      artist: "HIEUTHUHAI, MANBO, HURRYKNG",
-      src: "music/hennhauduoianhtrang.mp3",
+      title: "Nắng",
+      artist: "MANBO x CHANEE ",
+      src: "music/nang.mp3",
       cover: "image/avata.jpg",
+
     },
     {
       title: "Không Thời Gian",
@@ -18,9 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
       cover: "image/avata.jpg",
     },
     {
-      title: "Nắng",
-      artist: "MANBO x CHANEE ",
-      src: "music/nang.mp3",
+      title: "Hẹn Nhau Dưới Ánh Trăng",
+      artist: "HIEUTHUHAI, MANBO, HURRYKNG",
+      src: "music/hennhauduoianhtrang.mp3",
       cover: "image/avata.jpg",
     },
     {

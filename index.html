@@ -133,26 +133,19 @@
     </div>
     <div class="projects-grid"></div>
     <div class="projects-grid">
-      <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
-        <img src="image/image.png" alt="anh thich em rồi" loading="lazy" />
+
+
+      <div class="project-card animate-scroll from-right" data-tags="html-css javascript python">
+        <img src="image/photobooth.png" alt="Photobooth" loading="lazy" />
         <div class="project-info">
-          <h4>Cảm ơn vì đã đến bên tôi</h4>
+          <h4>Photobooth</h4>
           <p>HTML, CSS, JavaScript</p>
-          <a href="https://thuongnt-ktpm.github.io/tienthuongchu/" target="_blank" class="project-btn">
+          <a href="https://thuongnt-ktpm.github.io/photobooth/" target="_blank" class="project-btn">
             Xem chi tiết <i class="fas fa-arrow-right"></i>
           </a>
         </div>
       </div>
-      <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
-        <img src="image/muachu.png" alt="Mưa Chữ" loading="lazy" />
-        <div class="project-info">
-          <h4>Mưa Chữ</h4>
-          <p>HTML, CSS, JavaScript</p>
-          <a href="https://thuongnt-ktpm.github.io/thuongkv/" target="_blank" class="project-btn">
-            Xem chi tiết <i class="fas fa-arrow-right"></i>
-          </a>
-        </div>
-      </div>
+
 
       <div class="project-card animate-scroll from-right" data-tags="html-css javascript python">
         <img src="image/hsk.png" alt="HSK Test" loading="lazy" />
@@ -188,7 +181,26 @@
         </div>
       </div>
 
-
+      <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
+        <img src="image/image.png" alt="anh thich em rồi" loading="lazy" />
+        <div class="project-info">
+          <h4>Cảm ơn vì đã đến bên tôi</h4>
+          <p>HTML, CSS, JavaScript</p>
+          <a href="https://thuongnt-ktpm.github.io/tienthuongchu/" target="_blank" class="project-btn">
+            Xem chi tiết <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+      <div class="project-card animate-scroll from-left" data-tags="html-css javascript">
+        <img src="image/muachu.png" alt="Mưa Chữ" loading="lazy" />
+        <div class="project-info">
+          <h4>Mưa Chữ</h4>
+          <p>HTML, CSS, JavaScript</p>
+          <a href="https://thuongnt-ktpm.github.io/thuongkv/" target="_blank" class="project-btn">
+            Xem chi tiết <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -329,6 +341,26 @@
         <p class="letter-sub" id="letterSub"></p>
         <p class="letter-author" id="letterAuthor"></p>
 
+        <!-- Reaction Bar -->
+        <div class="letter-reactions">
+          <button class="reaction-btn" data-type="love" title="Thả tim">
+            <span class="reaction-icon">❤️</span>
+            <span class="reaction-count" id="count-love">0</span>
+          </button>
+          <button class="reaction-btn" data-type="like" title="Thích">
+            <span class="reaction-icon">👍</span>
+            <span class="reaction-count" id="count-like">0</span>
+          </button>
+          <button class="reaction-btn" data-type="sparkles" title="Lấp lánh">
+            <span class="reaction-icon">✨</span>
+            <span class="reaction-count" id="count-sparkles">0</span>
+          </button>
+          <button class="reaction-btn" data-type="fire" title="Nhiệt huyết">
+            <span class="reaction-icon">🔥</span>
+            <span class="reaction-count" id="count-fire">0</span>
+          </button>
+        </div>
+
 
         <div class="letter-progress-wrap">
           <div class="letter-progress-bar" id="letterProgressBar"></div>
@@ -354,6 +386,10 @@
   <script src="js/effects.js" defer></script>
   <script src="js/projects.js" defer></script>
   <script src="js/music.js" defer></script>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
 
   <script src="js/welcome-letter.js" defer></script>
 </body>

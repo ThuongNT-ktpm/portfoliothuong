@@ -23,12 +23,8 @@
   visibility: hidden;
 }
 
-/* Hide on mobile devices */
-@media (max-width: 768px) {
-  #welcome-overlay {
-    display: none !important;
-  }
-}
+/* Now displayed on mobile */
+
 
 /* ---- Floating hearts background ---- */
 .letter-hearts {
@@ -39,12 +35,8 @@
   overflow: hidden;
 }
 
-/* Hide on mobile devices */
-@media (max-width: 768px) {
-  .letter-hearts {
-    display: none !important;
-  }
-}
+/* Hearts now displayed on mobile */
+
 
 .letter-hearts span {
   position: absolute;
@@ -205,7 +197,7 @@
 .letter-quote {
   font-family: 'Pacifico', cursive;
   font-size: 1.18rem;
-  color: #d63384;
+  color: #bd1d6e; /* Darker pink for better contrast (WCAG) */
   line-height: 1.6;
   margin: 0 0 12px;
   text-shadow: 0 1px 3px rgba(214,51,132,0.15);
@@ -214,7 +206,7 @@
 /* Sub text */
 .letter-sub {
   font-size: 0.9rem;
-  color: #9b6880;
+  color: #7a4d61; /* Darker for accessibility */
   line-height: 1.7;
   margin: 0 0 22px;
   padding: 10px 14px;
@@ -227,7 +219,7 @@
 /* Author sig */
 .letter-author {
   font-size: 0.82rem;
-  color: #c06090;
+  color: #a04070;
   font-style: italic;
   margin-bottom: 20px;
 }
@@ -332,22 +324,168 @@
   border-radius: 0 0 24px 24px;
   text-align: center;
   font-size: 0.78rem;
-  color: #c06090;
+  color: #a04070;
   letter-spacing: 0.5px;
 }
 
-/* ---- Responsive ---- */
+/* ---- Reactions Bar ---- */
+.letter-reactions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 15px 0 20px;
+  flex-wrap: wrap;
+}
+
+.reaction-btn {
+  background: white;
+  border: 1px solid #f9daeb;
+  border-radius: 12px;
+  padding: 6px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 3px 10px rgba(247, 168, 208, 0.15);
+  position: relative;
+  min-width: 50px;
+}
+
+.reaction-btn:hover {
+  transform: translateY(-4px) scale(1.05);
+  border-color: #ff85c1;
+  box-shadow: 0 6px 15px rgba(247, 168, 208, 0.3);
+}
+
+.reaction-btn:active {
+  transform: scale(0.95);
+}
+
+.reaction-icon {
+  font-size: 1.4rem;
+}
+
+.reaction-count {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #bd1d6e;
+  transition: color 0.2s ease;
+}
+
+/* Active state for reactions */
+.reaction-btn.active {
+  background: #ff85c1;
+  border-color: #f06292;
+  box-shadow: 0 4px 15px rgba(240, 98, 146, 0.4);
+  transform: translateY(-2px);
+}
+
+.reaction-btn.active .reaction-count {
+  color: #ffffff;
+}
+
+.reaction-btn.active .reaction-icon {
+  filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+}
+
+/* Floating emoji animation */
+@keyframes floatReaction {
+  0% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
+  100% { transform: translateY(-100px) scale(1.5) rotate(15deg); opacity: 0; }
+}
+
+.floating-reaction {
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+  font-size: 1.5rem;
+  z-index: 10;
+  animation: floatReaction 1s ease-out forwards;
+}
+
+/* ---- Responsive & UX Improvements ---- */
 @media (max-width: 480px) {
+  #welcome-overlay {
+    padding: 15px; /* Less padding to allow larger card */
+  }
+
   #welcome-letter {
     border-radius: 20px;
+    border-width: 2px;
+    width: 95%; /* Occupy more width on very small screens */
   }
+
+  .letter-header {
+    padding: 10px 18px 8px;
+  }
+
+  .letter-brand {
+    font-size: 0.95rem;
+  }
+
   .letter-body {
-    padding: 22px 20px 18px;
+    padding: 20px 18px 16px;
   }
+
+  .letter-icon {
+    font-size: 2.8rem;
+    margin-bottom: 8px;
+  }
+
   .letter-quote {
     font-size: 1rem;
+    margin-bottom: 10px;
   }
-  .letter-icon {
-    font-size: 2.6rem;
+
+  .letter-sub {
+    font-size: 0.85rem;
+    padding: 8px 12px;
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+
+  .letter-author {
+    font-size: 0.78rem;
+    margin-bottom: 16px;
+  }
+
+  .letter-actions {
+    flex-direction: column; /* Stack buttons vertically for better tap targets */
+    gap: 10px;
+    width: 100%;
+  }
+
+  .btn-close-letter, .btn-next-quote {
+    width: 100%;
+    padding: 12px 20px; /* Larger tap target */
+    font-size: 0.95rem;
+  }
+
+  /* Shrink stickers on mobile so they don't crowd the content */
+  .letter-sticker {
+    font-size: 1.2rem;
+  }
+  .letter-sticker-tl { top: -14px; left: -8px; }
+  .letter-sticker-tr { top: -14px; right: -8px; }
+  .letter-sticker-bl { bottom: -12px; left: -6px; }
+  .letter-sticker-br { bottom: -12px; right: -6px; }
+
+  .letter-footer {
+    font-size: 0.72rem;
+    padding: 8px 15px;
   }
 }
+
+/* Touch device specific adjustments */
+@media (hover: none) {
+  .btn-close-letter:hover, .btn-next-quote:hover {
+    transform: none; /* Disable hover scale on touch devices as it can feel sticky */
+  }
+  .btn-close-letter:active, .btn-next-quote:active {
+    transform: scale(0.96);
+    background: rgba(240, 98, 146, 0.9);
+  }
+}
+
