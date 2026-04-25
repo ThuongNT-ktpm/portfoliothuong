@@ -1,36 +1,10 @@
 /**
  * music.js
- * Trách nhiệm: Quản lý toàn bộ tính năng trình phát nhạc (Playlist, Controls).
+ * Trach nhiem: Quan ly playlist va cac nut dieu khien trinh phat nhac.
  */
 
 document.addEventListener("DOMContentLoaded", function () {
-  const songs = [
-    {
-      title: "Nắng",
-      artist: "MANBO x CHANEE ",
-      src: "music/nang.mp3",
-      cover: "image/avata.jpg",
-
-    },
-    {
-      title: "Không Thời Gian",
-      artist: "Dương Domic",
-      src: "music/khongthoigian.mp3",
-      cover: "image/avata.jpg",
-    },
-    {
-      title: "Hẹn Nhau Dưới Ánh Trăng",
-      artist: "HIEUTHUHAI, MANBO, HURRYKNG",
-      src: "music/hennhauduoianhtrang.mp3",
-      cover: "image/avata.jpg",
-    },
-    {
-      title: "Bên Ấy Bên Này",
-      artist: "Long Cao",
-      src: "music/benaybennay.mp3",
-      cover: "image/avata.jpg",
-    },
-  ];
+  const songs = window.APP_CONFIG?.playlist || [];
 
   let songIdx = 0;
   const widget = document.getElementById("musicWidget");
@@ -42,10 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const artistEl = document.getElementById("trackArtist");
   const coverEl = document.getElementById("trackCover");
 
-  if (!widget || !audio) return;
-
-  // Khởi tạo bài hát đầu tiên
-  loadSong(songIdx);
+  if (!widget || !audio || songs.length === 0) return;
 
   function loadSong(idx) {
     const song = songs[idx];
@@ -56,8 +27,8 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function playSong() {
-    audio.play().catch(error => {
-      console.log("Trình duyệt chặn tự động phát nhạc hoặc lỗi: ", error);
+    audio.play().catch((error) => {
+      console.log("Trinh duyet chan tu dong phat nhac hoac loi: ", error);
     });
     widget.classList.add("playing");
   }
@@ -67,38 +38,29 @@ document.addEventListener("DOMContentLoaded", function () {
     widget.classList.remove("playing");
   }
 
-
-  if (playBtn) {
-    playBtn.addEventListener("click", () => {
-      const isPlaying = widget.classList.contains("playing");
-      if (isPlaying) pauseSong();
-      else playSong();
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      songIdx = (songIdx + 1) % songs.length;
-      loadSong(songIdx);
-      playSong();
-    });
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      songIdx = (songIdx - 1 + songs.length) % songs.length;
-      loadSong(songIdx);
-      playSong();
-    });
-  }
-
-  audio.addEventListener("ended", () => {
+  function nextSong() {
     songIdx = (songIdx + 1) % songs.length;
     loadSong(songIdx);
     playSong();
+  }
+
+  function prevSong() {
+    songIdx = (songIdx - 1 + songs.length) % songs.length;
+    loadSong(songIdx);
+    playSong();
+  }
+
+  loadSong(songIdx);
+
+  playBtn?.addEventListener("click", () => {
+    const isPlaying = widget.classList.contains("playing");
+    if (isPlaying) pauseSong();
+    else playSong();
   });
 
-  document.addEventListener('welcomeLetterClosed', () => {
-    playSong();
-  });
+  nextBtn?.addEventListener("click", nextSong);
+  prevBtn?.addEventListener("click", prevSong);
+  audio.addEventListener("ended", nextSong);
+
+  document.addEventListener("welcomeLetterClosed", playSong);
 });

@@ -116,6 +116,23 @@ function initFirebase() {
   }
 }
 
+function createReactionBurst(btn, emoji) {
+  const burst = document.createElement('span');
+  burst.className = 'reaction-burst';
+
+  for (let i = 0; i < 8; i++) {
+    const particle = document.createElement('span');
+    particle.textContent = emoji;
+    particle.style.setProperty('--angle', `${i * 45}deg`);
+    particle.style.setProperty('--distance', `${26 + Math.random() * 18}px`);
+    particle.style.setProperty('--delay', `${i * 12}ms`);
+    burst.appendChild(particle);
+  }
+
+  btn.appendChild(burst);
+  setTimeout(() => burst.remove(), 700);
+}
+
 /**
  * Hiệu ứng tim bay
  */
@@ -176,6 +193,7 @@ function handleReactionClick(btn) {
 
     // 1. Hiệu ứng bay
     createFloatingEmoji(btn, emoji);
+    createReactionBurst(btn, emoji);
 
     // 2. Tăng số hiển thị ngay lập tức
     const el = document.getElementById(`count-${type}`);
@@ -236,9 +254,14 @@ function renderQuote(idx) {
 
 function closeWelcomeLetter() {
   const overlay = document.getElementById('welcome-overlay');
+  const hearts = document.getElementById('letterHearts');
   if (overlay) {
     overlay.classList.add('hidden');
     setTimeout(() => overlay.remove(), 700);
+  }
+  if (hearts) {
+    hearts.classList.add('hidden');
+    setTimeout(() => hearts.remove(), 700);
   }
   clearTimeout(autoCloseTimer);
   document.dispatchEvent(new CustomEvent('welcomeLetterClosed'));

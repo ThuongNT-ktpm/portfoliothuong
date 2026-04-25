@@ -33,9 +33,14 @@
   pointer-events: none;
   z-index: 99998;
   overflow: hidden;
+  transition: opacity 0.5s ease;
 }
 
 /* Hearts now displayed on mobile */
+
+.letter-hearts.hidden {
+  opacity: 0;
+}
 
 
 .letter-hearts span {
@@ -350,7 +355,37 @@
   transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   box-shadow: 0 3px 10px rgba(247, 168, 208, 0.15);
   position: relative;
+  overflow: visible;
   min-width: 50px;
+}
+
+.reaction-burst {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.reaction-burst span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 13px;
+  animation: reactionBurst 0.62s ease-out forwards;
+  animation-delay: var(--delay, 0ms);
+}
+
+@keyframes reactionBurst {
+  from {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(0) scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(var(--angle)) translateX(var(--distance)) scale(0.35);
+  }
 }
 
 .reaction-btn:hover {
@@ -472,9 +507,46 @@
   .letter-sticker-bl { bottom: -12px; left: -6px; }
   .letter-sticker-br { bottom: -12px; right: -6px; }
 
+  .letter-reactions {
+    gap: 6px;
+    margin: 12px 0 16px;
+  }
+
+  .reaction-btn {
+    min-width: 46px;
+    padding: 6px 9px;
+  }
+
+  .reaction-icon {
+    font-size: 1.2rem;
+  }
+
   .letter-footer {
     font-size: 0.72rem;
     padding: 8px 15px;
+  }
+}
+
+@media (max-width: 360px) {
+  #welcome-overlay {
+    padding: 10px;
+  }
+
+  .letter-body {
+    padding: 16px 14px 14px;
+  }
+
+  .letter-sub {
+    max-height: 132px;
+    overflow-y: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letter-hearts,
+  .reaction-burst,
+  .floating-reaction {
+    display: none !important;
   }
 }
 
@@ -488,4 +560,3 @@
     background: rgba(240, 98, 146, 0.9);
   }
 }
-

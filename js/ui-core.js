@@ -48,6 +48,38 @@
   }
 })();
 
+// 4. Social Links & Copy Email
+(function () {
+  const config = window.APP_CONFIG || {};
+  const socialWrap = document.getElementById("socialLinks");
+  const copyBtn = document.getElementById("copyEmailBtn");
+
+  if (socialWrap && Array.isArray(config.socialLinks)) {
+    config.socialLinks.forEach((item) => {
+      const link = document.createElement("a");
+      link.href = item.url;
+      link.className = "social-link";
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.setAttribute("aria-label", item.label);
+      link.innerHTML = `<i class="${item.icon}"></i>`;
+      socialWrap.insertBefore(link, copyBtn || null);
+    });
+  }
+
+  if (copyBtn && config.email) {
+    copyBtn.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(config.email);
+        copyBtn.classList.add("copied");
+        setTimeout(() => copyBtn.classList.remove("copied"), 1500);
+      } catch (error) {
+        console.error("Copy email failed:", error);
+      }
+    });
+  }
+})();
+
 // 4. Scroll To Top Button
 (function () {
   const btn = document.getElementById("scroll-top");
