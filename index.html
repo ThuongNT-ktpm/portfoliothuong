@@ -235,6 +235,57 @@
     <i class="fas fa-arrow-up"></i>
   </button>
 
+  <div class="forever-clock" id="foreverClock" role="button" tabindex="0" aria-label="Time since 20/09/2023"
+    aria-expanded="false" aria-controls="foreverClockPanel">
+    <div class="clock-face" aria-hidden="true">
+      <span class="clock-mark mark-12">12</span>
+      <span class="clock-mark mark-3">3</span>
+      <span class="clock-mark mark-6">6</span>
+      <span class="clock-mark mark-9">9</span>
+      <span class="clock-hand hour-hand" id="clockHourHand"></span>
+      <span class="clock-hand minute-hand" id="clockMinuteHand"></span>
+      <span class="clock-hand second-hand" id="clockSecondHand"></span>
+      <span class="clock-center"></span>
+      <span class="clock-orbit"></span>
+    </div>
+    <div class="clock-copy">
+      <span class="clock-label">SINCE 20/09/2023</span>
+      <strong id="foreverDays">0 days</strong>
+      <span id="foreverTime">00:00:00</span>
+    </div>
+    <div class="clock-panel" id="foreverClockPanel" role="dialog" aria-label="Clock details">
+      <div class="clock-panel-head">
+        <span>University Memory</span>
+        <button type="button" id="closeForeverClock" aria-label="Close clock details">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="clock-panel-note">
+        20/09/2023 - ngay minh buoc chan vao dai hoc, bat dau mot hanh trinh moi voi that nhieu ky niem.
+      </p>
+      <div class="clock-panel-row">
+        <span>Milestone</span>
+        <strong>First university day</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span>Started</span>
+        <strong>20/09/2023</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span>Days passed</span>
+        <strong id="clockDetailDays">0</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span>Today count</span>
+        <strong id="clockDetailTime">00:00:00</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span>Meaning</span>
+        <strong>Still growing</strong>
+      </div>
+    </div>
+  </div>
+
   <footer class="animate-scroll from-bottom" id="end">
     <div class="social-icons" id="socialLinks">
       <button class="copy-email-btn" id="copyEmailBtn" title="Copy email">

@@ -38,6 +38,7 @@
     const direction = index % 2 === 0 ? "from-right" : "from-left";
     card.className = `project-card animate-scroll ${direction}${project.featured ? " featured-card" : ""}`;
     card.dataset.tags = (project.tags || []).join(" ");
+    card.style.setProperty("--scroll-delay", `${Math.min(index * 90, 360)}ms`);
 
     card.innerHTML = `
       <div class="project-thumb">
@@ -76,9 +77,12 @@
 
   function refreshScrollAnimation() {
     requestAnimationFrame(() => {
-      document.querySelectorAll(".projects-grid .animate-scroll").forEach((el) => {
-        el.classList.add("active");
-      });
+      if (typeof window.observeScrollReveal === "function") {
+        window.observeScrollReveal(grid);
+        return;
+      }
+
+      document.querySelectorAll(".projects-grid .animate-scroll").forEach((el) => el.classList.add("active"));
     });
   }
 

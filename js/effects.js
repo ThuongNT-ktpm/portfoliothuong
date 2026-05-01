@@ -40,6 +40,89 @@
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
+  function initForeverClock() {
+    const hourHand = document.getElementById("clockHourHand");
+    const minuteHand = document.getElementById("clockMinuteHand");
+    const secondHand = document.getElementById("clockSecondHand");
+    const daysEl = document.getElementById("foreverDays");
+    const timeEl = document.getElementById("foreverTime");
+    const clock = document.getElementById("foreverClock");
+    const closeBtn = document.getElementById("closeForeverClock");
+    const panel = document.getElementById("foreverClockPanel");
+    const detailDaysEl = document.getElementById("clockDetailDays");
+    const detailTimeEl = document.getElementById("clockDetailTime");
+
+    if (!hourHand || !minuteHand || !secondHand || !daysEl || !timeEl) return;
+
+    const startDate = new Date(2023, 8, 20, 0, 0, 0);
+    const secondMs = 1000;
+    const minuteMs = 60 * secondMs;
+    const hourMs = 60 * minuteMs;
+    const dayMs = 24 * hourMs;
+
+    function pad(value) {
+      return String(value).padStart(2, "0");
+    }
+
+    function updateClock() {
+      const now = new Date();
+      const seconds = now.getSeconds() + now.getMilliseconds() / 1000;
+      const minutes = now.getMinutes() + seconds / 60;
+      const hours = (now.getHours() % 12) + minutes / 60;
+      const elapsed = Math.max(0, now - startDate);
+      const days = Math.floor(elapsed / dayMs);
+      const hoursLeft = Math.floor((elapsed % dayMs) / hourMs);
+      const minutesLeft = Math.floor((elapsed % hourMs) / minuteMs);
+      const secondsLeft = Math.floor((elapsed % minuteMs) / secondMs);
+
+      hourHand.style.transform = `translateX(-50%) rotate(${hours * 30}deg)`;
+      minuteHand.style.transform = `translateX(-50%) rotate(${minutes * 6}deg)`;
+      secondHand.style.transform = `translateX(-50%) rotate(${seconds * 6}deg)`;
+      daysEl.textContent = `${days.toLocaleString("en-US")} days`;
+      timeEl.textContent = `${pad(hoursLeft)}:${pad(minutesLeft)}:${pad(secondsLeft)} - forever`;
+      if (detailDaysEl) detailDaysEl.textContent = days.toLocaleString("en-US");
+      if (detailTimeEl) detailTimeEl.textContent = `${pad(hoursLeft)}:${pad(minutesLeft)}:${pad(secondsLeft)}`;
+
+      requestAnimationFrame(updateClock);
+    }
+
+    function setPanel(open) {
+      if (!clock) return;
+      clock.classList.toggle("panel-open", open);
+      clock.setAttribute("aria-expanded", String(open));
+    }
+
+    clock?.addEventListener("click", () => {
+      setPanel(!clock.classList.contains("panel-open"));
+    });
+
+    clock?.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      setPanel(!clock.classList.contains("panel-open"));
+    });
+
+    closeBtn?.addEventListener("click", (event) => {
+      event.stopPropagation();
+      setPanel(false);
+    });
+
+    panel?.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!clock || clock.contains(event.target)) return;
+      setPanel(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setPanel(false);
+    });
+
+    updateClock();
+  }
+
   function createHeroParticles() {
     const wrap = document.getElementById("heroParticles");
     if (!wrap || reduceMotion) return;
@@ -76,10 +159,114 @@
     glow.className = "cursor-glow";
     document.body.appendChild(glow);
 
+    const cursor = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      glowX: window.innerWidth / 2,
+      glowY: window.innerHeight / 2,
+    };
+
     window.addEventListener("pointermove", (event) => {
-      glow.style.setProperty("--cursor-x", `${event.clientX}px`);
-      glow.style.setProperty("--cursor-y", `${event.clientY}px`);
+      cursor.x = event.clientX;
+      cursor.y = event.clientY;
+      glow.classList.add("is-visible");
     }, { passive: true });
+
+    document.addEventListener("pointerleave", () => {
+      glow.classList.remove("is-visible");
+    });
+
+    function animateGlow() {
+      cursor.glowX += (cursor.x - cursor.glowX) * 0.12;
+      cursor.glowY += (cursor.y - cursor.glowY) * 0.12;
+
+      glow.style.setProperty("--cursor-x", `${cursor.glowX}px`);
+      glow.style.setProperty("--cursor-y", `${cursor.glowY}px`);
+
+      requestAnimationFrame(animateGlow);
+    }
+
+    animateGlow();
+  }
+
+  function initCursorTrail() {
+    if (!isFinePointer || reduceMotion) return;
+
+    const trailCount = 14;
+    const trail = [];
+    const cursor = {
+      x: window.innerWidth / 2,
+      y: window.innerHeight / 2,
+      lastSparkX: 0,
+      lastSparkY: 0,
+    };
+
+    for (let i = 0; i < trailCount; i++) {
+      const dot = document.createElement("span");
+      const size = Math.max(3, 13 - i * 0.65);
+      const alpha = Math.max(0.08, 0.55 - i * 0.035);
+
+      dot.className = "cursor-trail";
+      dot.style.setProperty("--trail-size", `${size}px`);
+      dot.style.setProperty("--trail-alpha", `${alpha}`);
+      document.body.appendChild(dot);
+
+      trail.push({
+        el: dot,
+        x: cursor.x,
+        y: cursor.y,
+      });
+    }
+
+    function createSpark(x, y) {
+      const spark = document.createElement("span");
+      const angle = Math.random() * Math.PI * 2;
+      const distance = 16 + Math.random() * 24;
+
+      spark.className = "cursor-spark";
+      spark.style.setProperty("--spark-x", `${x}px`);
+      spark.style.setProperty("--spark-y", `${y}px`);
+      spark.style.setProperty("--spark-size", `${3 + Math.random() * 4}px`);
+      spark.style.setProperty("--spark-dx", `${Math.cos(angle) * distance}px`);
+      spark.style.setProperty("--spark-dy", `${Math.sin(angle) * distance}px`);
+      document.body.appendChild(spark);
+
+      spark.addEventListener("animationend", () => spark.remove(), { once: true });
+    }
+
+    window.addEventListener("pointermove", (event) => {
+      cursor.x = event.clientX;
+      cursor.y = event.clientY;
+      trail.forEach((dot) => dot.el.classList.add("is-visible"));
+
+      const dx = cursor.x - cursor.lastSparkX;
+      const dy = cursor.y - cursor.lastSparkY;
+      if (Math.hypot(dx, dy) > 34) {
+        createSpark(cursor.x, cursor.y);
+        cursor.lastSparkX = cursor.x;
+        cursor.lastSparkY = cursor.y;
+      }
+    }, { passive: true });
+
+    document.addEventListener("pointerleave", () => {
+      trail.forEach((dot) => dot.el.classList.remove("is-visible"));
+    });
+
+    function animateTrail() {
+      trail.forEach((dot, index) => {
+        const target = index === 0 ? cursor : trail[index - 1];
+        const speed = index === 0 ? 0.34 : 0.28;
+
+        dot.x += (target.x - dot.x) * speed;
+        dot.y += (target.y - dot.y) * speed;
+        dot.el.style.setProperty("--trail-x", `${dot.x}px`);
+        dot.el.style.setProperty("--trail-y", `${dot.y}px`);
+      });
+
+      requestAnimationFrame(animateTrail);
+    }
+
+    animateTrail();
   }
 
   function initProjectTilt() {
@@ -166,7 +353,9 @@
 
   createHeroParticles();
   initHeroReveal();
+  initForeverClock();
   initCursorGlow();
+  initCursorTrail();
   initProjectTilt();
   initMagneticButtons();
   initSectionTransitions();

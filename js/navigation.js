@@ -53,23 +53,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 3. Animate on Scroll
 (function () {
+  function enhanceRevealTargets(root = document) {
+    root
+      .querySelectorAll(".project-search-wrap, .project-filters, .project-count, .project-empty-state")
+      .forEach((el, index) => {
+        el.classList.add("animate-scroll", "from-bottom");
+        el.style.setProperty("--scroll-delay", `${Math.min(index * 90, 270)}ms`);
+      });
+
+    root.querySelectorAll(".skill-item").forEach((el, index) => {
+      el.classList.add("animate-scroll", "from-bottom");
+      el.style.setProperty("--scroll-delay", `${Math.min(index * 70, 420)}ms`);
+    });
+
+    root.querySelectorAll(".timeline-item").forEach((el, index) => {
+      el.style.setProperty("--scroll-delay", `${Math.min(index * 80, 320)}ms`);
+    });
+  }
+
   const scrollObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("active");
-        }
+        entry.target.classList.toggle("active", entry.isIntersecting);
       });
     },
-    { threshold: 0.1 }
+    {
+      threshold: 0.14,
+      rootMargin: "0px 0px -8% 0px",
+    }
   );
 
-  document.querySelectorAll(".animate-scroll").forEach((el) => scrollObserver.observe(el));
+  window.observeScrollReveal = function (root = document) {
+    enhanceRevealTargets(root);
+    root.querySelectorAll(".animate-scroll").forEach((el, index) => {
+      if (!el.style.getPropertyValue("--scroll-delay")) {
+        el.style.setProperty("--scroll-delay", `${Math.min(index * 45, 360)}ms`);
+      }
+      scrollObserver.observe(el);
+    });
+  };
+
+  window.observeScrollReveal();
 
   // Initial check on load
   window.addEventListener("load", () => {
     document.querySelectorAll(".animate-scroll").forEach((el) => {
-      if (el.getBoundingClientRect().top < window.innerHeight) {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) {
         el.classList.add("active");
       }
     });
