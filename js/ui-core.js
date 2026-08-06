@@ -91,26 +91,3 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   });
 })();
-
-// 5. Confetti on Load
-(function () {
-  if (sessionStorage.getItem("confetti_done")) return;
-  sessionStorage.setItem("confetti_done", "1");
-  window.addEventListener("load", () => {
-    if (typeof confetti === "function") {
-      confetti({ particleCount: 80, spread: 70, origin: { y: 0.5 } });
-    }
-  });
-})();
-
-// 6. Security & Protection
-document.addEventListener("contextmenu", (event) => event.preventDefault());
-document.onkeydown = function (e) {
-  if (
-    e.keyCode == 123 ||
-    (e.ctrlKey && e.shiftKey && (e.keyCode == "I".charCodeAt(0) || e.keyCode == "J".charCodeAt(0))) ||
-    (e.ctrlKey && e.keyCode == "U".charCodeAt(0))
-  ) {
-    return false;
-  }
-};

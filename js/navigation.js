@@ -9,25 +9,37 @@ document.addEventListener("DOMContentLoaded", function () {
   const navbar = document.querySelector(".navbar");
 
   if (menuIcon && navbar) {
-    menuIcon.onclick = () => {
-      menuIcon.classList.toggle("fa-times");
-      navbar.classList.toggle("active");
+    const icon = menuIcon.querySelector("i");
+    const closeMenu = () => {
+      icon?.classList.remove("fa-times");
+      icon?.classList.add("fa-bars");
+      navbar.classList.remove("active");
+      document.body.classList.remove("menu-open");
+      menuIcon.setAttribute("aria-expanded", "false");
+      menuIcon.setAttribute("aria-label", "Open navigation");
     };
 
-    document.querySelectorAll(".navbar a").forEach((n) =>
-      n.addEventListener("click", () => {
-        menuIcon.classList.remove("fa-times");
-        navbar.classList.remove("active");
-      })
-    );
-  }
+    menuIcon.addEventListener("click", () => {
+      const isOpen = navbar.classList.toggle("active");
+      icon?.classList.toggle("fa-bars", !isOpen);
+      icon?.classList.toggle("fa-times", isOpen);
+      document.body.classList.toggle("menu-open", isOpen);
+      menuIcon.setAttribute("aria-expanded", String(isOpen));
+      menuIcon.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+    });
 
-  window.onscroll = () => {
-    if (menuIcon && navbar) {
-      menuIcon.classList.remove("fa-times");
-      navbar.classList.remove("active");
-    }
-  };
+    document.querySelectorAll(".navbar a").forEach((n) =>
+      n.addEventListener("click", closeMenu)
+    );
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeMenu();
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) closeMenu();
+    }, { passive: true });
+  }
 });
 
 // 2. Active Link Navbar Observer

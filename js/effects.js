@@ -78,8 +78,9 @@
       hourHand.style.transform = `translateX(-50%) rotate(${hours * 30}deg)`;
       minuteHand.style.transform = `translateX(-50%) rotate(${minutes * 6}deg)`;
       secondHand.style.transform = `translateX(-50%) rotate(${seconds * 6}deg)`;
-      daysEl.textContent = `${days.toLocaleString("en-US")} days`;
-      timeEl.textContent = `${pad(hoursLeft)}:${pad(minutesLeft)}:${pad(secondsLeft)} - forever`;
+      const isEnglish = typeof window.getPortfolioLanguage === "function" && window.getPortfolioLanguage() === "en";
+      daysEl.textContent = `${days.toLocaleString(isEnglish ? "en-US" : "vi-VN")} ${isEnglish ? "days" : "ngày"}`;
+      timeEl.textContent = `${pad(hoursLeft)}:${pad(minutesLeft)}:${pad(secondsLeft)} - ${isEnglish ? "forever" : "mãi mãi"}`;
       if (detailDaysEl) detailDaysEl.textContent = days.toLocaleString("en-US");
       if (detailTimeEl) detailTimeEl.textContent = `${pad(hoursLeft)}:${pad(minutesLeft)}:${pad(secondsLeft)}`;
 
@@ -125,9 +126,9 @@
 
   function createHeroParticles() {
     const wrap = document.getElementById("heroParticles");
-    if (!wrap || reduceMotion) return;
+    if (!wrap || reduceMotion || !isFinePointer) return;
 
-    const particleCount = isFinePointer ? 34 : 18;
+    const particleCount = 34;
     const fragment = document.createDocumentFragment();
 
     for (let i = 0; i < particleCount; i++) {
@@ -147,7 +148,8 @@
     const items = document.querySelectorAll(".hero-text > *");
     items.forEach((item, index) => {
       item.classList.add("hero-reveal");
-      item.style.setProperty("--reveal-delay", `${120 + index * 120}ms`);
+      const delay = isFinePointer ? 120 + index * 120 : 40 + index * 45;
+      item.style.setProperty("--reveal-delay", `${delay}ms`);
     });
     requestAnimationFrame(() => document.body.classList.add("hero-ready"));
   }
