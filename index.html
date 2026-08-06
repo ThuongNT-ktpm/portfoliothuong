@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 
 <head>
   <meta charset="utf-8" />
@@ -15,8 +15,9 @@
 
   <link rel="canonical" href="https://thuongnt-ktpm.github.io/" />
   <meta property="og:title" content="Nguyễn Tiến Thương — Backend Developer" />
-  <meta property="og:description" content="Portfolio Backend Developer tập trung vào Java, Spring Boot và phát triển ứng dụng web." />
-  <meta property="og:image" content="image/avatar-profile.jpg" />
+  <meta property="og:description"
+    content="Portfolio Backend Developer tập trung vào Java, Spring Boot và phát triển ứng dụng web." />
+  <meta property="og:image" content="image/avata.jpg" />
   <meta property="og:url" content="https://thuongnt-ktpm.github.io/" />
   <meta property="og:type" content="website" />
 
@@ -24,7 +25,7 @@
 
   <link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png" />
   <link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png" />
-  <title>Nguyen Tien Thuong | Java Backend Developer</title>
+  <title>Nguyễn Tiến Thương | Backend Developer</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,7 +36,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
-  <link rel="preload" href="image/avatar-profile.jpg" as="image" />
+  <link rel="preload" href="image/avata.jpg" as="image" />
   <link id="theme-link" rel="stylesheet" href="css/styles.css" />
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-7ZXRVPT543"></script>
@@ -56,50 +57,70 @@
   <header class="animate-scroll from-top">
     <a href="#home" class="logo">Tiến Thương</a>
     <div class="header-right">
-      <button id="language-toggle" type="button" aria-label="Chuyển sang tiếng Việt"><span>VI</span><span>/</span><span class="lang-active">EN</span></button>
-      <button id="theme-toggle" type="button" aria-label="Toggle color theme">
+      <button id="language-toggle" type="button" aria-label="Switch to English"><span
+          class="lang-active">VI</span><span>/</span><span>EN</span></button>
+      <div id="theme-toggle">
         <i class="fas fa-sun icon-sun"></i><i class="fas fa-moon icon-moon"></i>
-      </button>
+      </div>
       <nav class="navbar">
         <a href="#home" class="active" data-i18n="nav_home">Giới thiệu</a>
         <a href="#projects" data-i18n="nav_projects">Dự án</a>
         <a href="#skills" data-i18n="nav_skills">Kỹ năng</a>
         <a href="#timeline" data-i18n="nav_timeline">Hành trình</a>
         <a href="#study" data-i18n="nav_study">Tài liệu</a>
-        <a href="https://thuongnt-ktpm.github.io/my-blog/" target="_blank" rel="noopener noreferrer" data-i18n="nav_blog">Bài viết</a>
+        <a href="https://thuongnt-ktpm.github.io/my-blog/" target="_blank" rel="noopener noreferrer"
+          data-i18n="nav_blog">Bài viết</a>
       </nav>
-      <button id="menu-icon" type="button" aria-label="Open navigation" aria-expanded="false"><i class="fas fa-bars"></i></button>
+      <i class="fas fa-bars" id="menu-icon"></i>
     </div>
   </header>
 
-  <section id="home" class="unified-hero profile-hero">
+  <section id="home" class="unified-hero">
     <div class="hero-particles" id="heroParticles" aria-hidden="true"></div>
-    <div class="hero-img animate-scroll from-left">
-      <img src="image/avatar-profile.jpg" alt="Chân dung Nguyễn Tiến Thương" width="290" height="290" decoding="async" fetchpriority="high" />
+    <div class="hero-text animate-scroll from-left">
+      <div class="music-widget" id="musicWidget">
+        <div class="album-wrapper">
+          <img src="image/avata.jpg" alt="Music cover" class="cover" id="trackCover" />
+        </div>
+        <div class="info">
+          <div class="tag"><span data-i18n="now_playing">ĐANG PHÁT</span>
+            <span class="music-visualizer"
+              aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+          </div>
+          <h3 class="title" id="trackTitle">Hẹn Nhau Dưới Ánh Trăng</h3>
+          <p class="artist" id="trackArtist">HIEUTHUHAI, MANBO, HURRYKNG</p>
+        </div>
+        <div class="controls-wrapper">
+          <button class="prev-btn" id="prevBtn" aria-label="Bài trước"><i class="fas fa-step-backward"></i></button>
+          <button class="play-btn" id="playBtn" aria-label="Phát nhạc">
+            <div class="icon-play"></div>
+            <div class="icon-pause"></div>
+          </button>
+          <button class="next-btn" id="nextBtn" aria-label="Bài tiếp theo"><i class="fas fa-step-forward"></i></button>
+        </div>
+        <audio id="audioPlayer" src="music/hennhauduoianhtrang.mp3"></audio>
+      </div>
+      <h1 data-i18n="hero_title">Java Backend Developer</h1>
+      <p class="bio" data-i18n-html="hero_bio">
+        Mình là Nguyễn Tiến Thương, sinh viên chuyên ngành Kỹ thuật Phần mềm định hướng phát triển Backend.<br /><br />
+        Mình xây dựng ứng dụng web với Java, Spring Boot và cơ sở dữ liệu SQL; chú trọng kiến trúc rõ ràng,
+        khả năng bảo trì và trải nghiệm ổn định. Hiện mình đang tiếp tục hoàn thiện kỹ năng qua các dự án thực tế.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="study-btn" data-i18n="view_projects">Xem dự án</a>
+        <a href="image/cv.png" target="_blank" rel="noopener noreferrer" class="hero-outline-btn">
+          <i class="fas fa-file-lines"></i> <span data-i18n="view_cv">Xem CV</span>
+        </a>
+        <a href="https://github.com/thuongnt-ktpm" target="_blank" rel="noopener noreferrer" class="hero-outline-btn">
+          <i class="fab fa-github"></i> GitHub
+        </a>
+        <a href="mailto:thuongnt.ktpm@gmail.com" class="hero-outline-btn">
+          <i class="fas fa-envelope"></i> <span data-i18n="contact">Liên hệ</span>
+        </a>
+      </div>
     </div>
-    <div class="hero-text animate-scroll from-right">
-      <p class="profile-role" data-i18n="profile_role">SOFTWARE ENGINEERING STUDENT</p>
-      <h1 data-i18n="profile_name">Nguyen Tien Thuong</h1>
-      <p class="bio" data-i18n="profile_bio">I focus on building backend applications with Java and Spring Boot, aiming for systems that are well-structured, reliable, and scalable.</p>
-      <div class="profile-bottom">
-        <div class="profile-tags" aria-label="Technology stack">
-          <span>Java</span><span>Spring Boot</span><span>Backend</span><span>SQL</span>
-        </div>
-        <div class="profile-divider" aria-hidden="true"></div>
-        <div class="profile-links">
-          <a href="#projects"><i class="fas fa-code"></i> <span data-i18n="view_projects">View projects</span></a>
-          <a href="cv.html"><i class="fas fa-file-lines"></i> <span data-i18n="view_cv">View CV</span></a>
-          <a href="https://github.com/Thuong404-lab" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
-          <a href="mailto:thuongnt.ce191329@gmail.com"><i class="fas fa-envelope"></i> Gmail</a>
-          <a href="https://www.linkedin.com/in/nguyentienthuong-dev/" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
-        </div>
-      </div>
-      <div class="credibility-list">
-        <span><i class="fas fa-briefcase"></i> <b data-i18n="target_label">Target:</b> <span data-i18n="target_value">Java Intern</span></span>
-        <span><i class="fas fa-location-dot"></i> <b data-i18n="location_label">Location:</b> Vietnam</span>
-        <span><i class="fas fa-circle-check"></i> <b data-i18n="status_label">Status:</b> <span data-i18n="status_value">Open to Internship</span></span>
-        <span><i class="fas fa-language"></i> <b data-i18n="english_label">English:</b> <span data-i18n="english_value">Good technical reading</span></span>
-      </div>
+    <div class="hero-img animate-scroll from-right">
+      <img src="image/avata.jpg" alt="Chân dung Nguyễn Tiến Thương" />
     </div>
   </section>
 
@@ -108,7 +129,8 @@
 
     <div class="project-search-wrap">
       <i class="fas fa-search"></i>
-      <input type="text" id="projectSearch" placeholder="Tìm dự án..." data-i18n-placeholder="project_search" autocomplete="off" />
+      <input type="text" id="projectSearch" placeholder="Tìm dự án..." data-i18n-placeholder="project_search"
+        autocomplete="off" />
       <button type="button" id="clearProjectSearch" class="clear-search-btn" aria-label="Clear project search">
         <i class="fas fa-times"></i>
       </button>
@@ -118,9 +140,7 @@
       <button class="filter-btn active" data-filter="all" data-i18n="all">Tất cả</button>
       <button class="filter-btn" data-filter="html-css">HTML + CSS</button>
       <button class="filter-btn" data-filter="javascript">JavaScript</button>
-      <button class="filter-btn" data-filter="java">Java</button>
-      <button class="filter-btn" data-filter="backend">Backend</button>
-      <button class="filter-btn" data-filter="iot">IoT</button>
+      <button class="filter-btn" data-filter="python">Python</button>
     </div>
     <div class="project-count" id="projectCount" aria-live="polite"></div>
     <div class="projects-grid" id="projectsGrid"></div>
@@ -149,7 +169,7 @@
         <span>Java</span>
       </div>
 
-      <div class="skill-item" data-tip="Advanced · Core skill ⭐⭐⭐⭐⭐">
+      <div class="skill-item" data-tip="Beginner ⭐⭐">
         <i class="devicon-spring-original colored"></i><span>Spring Boot</span>
       </div>
       <div class="skill-item" data-tip="Intermediate ⭐⭐⭐⭐⭐">
@@ -161,9 +181,6 @@
       <div class="skill-item" data-tip="Intermediate ⭐⭐⭐⭐">
         <i class="devicon-microsoftsqlserver-plain colored"></i>
         <span>SQL Server</span>
-      </div>
-      <div class="skill-item" data-tip="API Testing ⭐⭐⭐⭐">
-        <i class="devicon-postman-plain colored"></i><span>Postman</span>
       </div>
       <div class="skill-item" data-tip="Daily use ⭐⭐⭐⭐⭐">
         <i class="devicon-github-original"></i><span>GitHub</span>
@@ -178,14 +195,16 @@
         <span class="time-stamp" data-i18n="time_now">2025 - Nay</span>
         <div class="timeline-content">
           <h3 data-i18n="timeline_1_title">Tập trung Backend Development</h3>
-          <p data-i18n="timeline_1_text">Phát triển nền tảng Java, Spring Boot, REST API và tìm hiểu quy trình triển khai ứng dụng.</p>
+          <p data-i18n="timeline_1_text">Phát triển nền tảng Java, Spring Boot, REST API và tìm hiểu quy trình triển
+            khai ứng dụng.</p>
         </div>
       </div>
       <div class="timeline-item animate-scroll from-right">
         <span class="time-stamp">2024 - 2025</span>
         <div class="timeline-content">
           <h3 data-i18n="timeline_2_title">Xây dựng nền tảng Software Engineering</h3>
-          <p data-i18n="timeline_2_text">Học OOP, cấu trúc dữ liệu, cơ sở dữ liệu và phát triển các dự án web cá nhân.</p>
+          <p data-i18n="timeline_2_text">Học OOP, cấu trúc dữ liệu, cơ sở dữ liệu và phát triển các dự án web cá nhân.
+          </p>
         </div>
       </div>
       <div class="timeline-item animate-scroll from-left">
@@ -199,19 +218,10 @@
         <span class="time-stamp" data-i18n="time_before">Trước 2023</span>
         <div class="timeline-content">
           <h3 data-i18n="timeline_4_title">Tốt nghiệp THPT</h3>
-          <p data-i18n="timeline_4_text">THPT Trần Văn Thời — bước đầu xác định định hướng theo ngành công nghệ phần mềm.</p>
+          <p data-i18n="timeline_4_text">THPT Trần Văn Thời — bước đầu xác định định hướng theo ngành công nghệ phần
+            mềm.</p>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section id="credentials">
-    <h2 class="heading animate-scroll from-bottom" data-i18n="credentials_title">Credentials</h2>
-    <div class="credentials-grid">
-      <article class="credential-card animate-scroll from-bottom"><i class="fas fa-graduation-cap"></i><span data-i18n="education_label">Education</span><h3 data-i18n="education_value">Software Engineering — FPT University</h3><p data-i18n="gpa_value">Cumulative GPA: 3.1/4.0</p></article>
-      <article class="credential-card animate-scroll from-bottom"><i class="fas fa-certificate"></i><span>HKUST · 2026</span><h3 data-i18n="cert_se">Software Engineering Specialization</h3><p data-i18n="cert_se_text">UML, testing, design patterns, and project management.</p></article>
-      <article class="credential-card animate-scroll from-bottom"><i class="fas fa-pen-ruler"></i><span>University of Michigan · 2026</span><h3 data-i18n="cert_ux">UX Research and Design</h3><p data-i18n="cert_ux_text">Research, prototyping, and usability testing.</p></article>
-      <article class="credential-card animate-scroll from-bottom"><i class="fas fa-award"></i><span>FPT University · Summer 2025</span><h3 data-i18n="award_title">Excellent Student Award</h3><p data-i18n="award_text">Recognition for strong academic performance.</p></article>
     </div>
   </section>
 
@@ -219,7 +229,7 @@
     <div class="study-banner animate-scroll from-bottom">
       <h2 data-i18n="study_title">Tài liệu học tập</h2>
       <p data-i18n="study_text">Kho tài liệu mình tổng hợp trong quá trình học đại học</p>
-      <a href="https://tienthuong.vercel.app/" target="_blank" rel="noopener noreferrer" class="study-btn">
+      <a href="https://thuongnt-ktpm.github.io/learn/" target="_blank" rel="noopener noreferrer" class="study-btn">
         <span data-i18n="study_action">Khám phá tài liệu</span>
         <i class="fas fa-external-link-alt" style="margin-left: 10px"></i>
       </a>
@@ -229,6 +239,57 @@
   <button id="scroll-top" aria-label="Scroll to top">
     <i class="fas fa-arrow-up"></i>
   </button>
+
+  <div class="forever-clock" id="foreverClock" role="button" tabindex="0" aria-label="Time since 20/09/2023"
+    aria-expanded="false" aria-controls="foreverClockPanel">
+    <div class="clock-face" aria-hidden="true">
+      <span class="clock-mark mark-12">12</span>
+      <span class="clock-mark mark-3">3</span>
+      <span class="clock-mark mark-6">6</span>
+      <span class="clock-mark mark-9">9</span>
+      <span class="clock-hand hour-hand" id="clockHourHand"></span>
+      <span class="clock-hand minute-hand" id="clockMinuteHand"></span>
+      <span class="clock-hand second-hand" id="clockSecondHand"></span>
+      <span class="clock-center"></span>
+      <span class="clock-orbit"></span>
+    </div>
+    <div class="clock-copy">
+      <span class="clock-label" data-i18n="since">TỪ 20/09/2023</span>
+      <strong id="foreverDays">0 ngày</strong>
+      <span id="foreverTime">00:00:00</span>
+    </div>
+    <div class="clock-panel" id="foreverClockPanel" role="dialog" aria-label="Clock details">
+      <div class="clock-panel-head">
+        <span data-i18n="clock_title">Kỷ niệm đại học</span>
+        <button type="button" id="closeForeverClock" aria-label="Close clock details">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <p class="clock-panel-note" data-i18n="clock_note">
+        20/09/2023 - ngày mình bước chân vào đại học, bắt đầu một hành trình mới với thật nhiều kỷ niệm.
+      </p>
+      <div class="clock-panel-row">
+        <span data-i18n="milestone">Cột mốc</span>
+        <strong data-i18n="first_day">Ngày đầu vào đại học</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span data-i18n="started">Bắt đầu</span>
+        <strong>20/09/2023</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span data-i18n="days_passed">Số ngày đã qua</span>
+        <strong id="clockDetailDays">0</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span data-i18n="today_count">Thời gian hôm nay</span>
+        <strong id="clockDetailTime">00:00:00</strong>
+      </div>
+      <div class="clock-panel-row">
+        <span data-i18n="meaning">Ý nghĩa</span>
+        <strong data-i18n="still_growing">Vẫn đang trưởng thành</strong>
+      </div>
+    </div>
+  </div>
 
   <footer class="animate-scroll from-bottom" id="end">
     <div class="social-icons" id="socialLinks">
@@ -317,10 +378,12 @@
 
   <script src="js/config.js" defer></script>
   <script src="js/i18n.js" defer></script>
+  <script src="js/notifications.js" defer></script>
   <script src="js/ui-core.js" defer></script>
   <script src="js/navigation.js" defer></script>
   <script src="js/effects.js" defer></script>
   <script src="js/projects.js" defer></script>
+  <script src="js/music.js" defer></script>
 
 </body>
 
